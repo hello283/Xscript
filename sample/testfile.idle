@@ -1,0 +1,1 @@
+if(2==1+2){var res="Never Execute";}else if(2==1+1){var res="Hi~ o(*￣▽￣*)ブ";};

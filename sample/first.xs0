@@ -1,0 +1,9 @@
+package First;
+import("__Xscript_Include__/stdlib.xs0",std);
+/*An Descriptor Test*/
+const First = class{
+  const Main = function(){
+    print("Hello,World!");
+    return 0;
+  };
+};

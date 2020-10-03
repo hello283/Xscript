@@ -1,0 +1,6 @@
+const std = class{
+    #SHARE "__Xscript_Include__/lib/ios.so";
+    const print = function(str){};
+    const input = function(str){};
+    #END_SHARE;
+};
