@@ -546,6 +546,7 @@ ScriptResult Script(vector<word> wrd){
         string tname = wrd[0].wd;
         Type tContent = eval(WordCollection(wrd,2));
         if(!setTypeContent(tname,tContent))  throw Error::NotDefine(tname);
+        return ScriptResult(__SUCCESS__);
       }if(wrd[1].word_type == chr && wrd[1].wd == "("){
         // Function Call
         // Do it later
@@ -618,28 +619,16 @@ ScriptResult Script(vector<word> wrd){
       vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
       size_t sz = getWordPos(wrd,chr,")") + 1;
       Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
-      Type eval_res = eval(expr);
-      while(eval_res.content[0] == 1){
-        Type eval_res = eval(expr);
+      //Type eval_res = eval(expr);
+      //eval_res.content[0] = 1;
+      //ScriptResult ifr = Script(wrd[sz].wd);
+      while(eval(expr).content[0] == 1){
+        //eval_res = 
         ScriptResult ifr = Script(wrd[sz].wd);
-        //cout << (int)eval_res.content[0] << " " << ifr.res << endl;
+        //if(eval_res.content[0] != 1)  break;
+        cout << (int)eval(expr).content[0] << " " << ifr.res << endl;
         if(ifr.res == _lopcontinue)  continue;
         if(ifr.res != _finally)  return ifr;
-      }
-    }else if(wrd[0].wd == "for"){
-      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
-      size_t sz = getWordPos(wrd,chr,")") + 1;
-      vector< vector<word> > enity = WordSpliter(expr,word(chr,","));
-      Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
-      Script(enity[0]);
-      Type eval_res = eval(enity[1]);
-      while(eval_res.content[0] == 1){
-        Type eval_res = eval(enity[1]);
-        ScriptResult ifr = Script(wrd[sz].wd);
-        //cout << (int)eval_res.content[0] << " " << ifr.res << endl;
-        if(ifr.res == _lopcontinue)  continue;
-        if(ifr.res != _finally)  return ifr;
-        Script(enity[2]);
       }
     }else if(wrd[0].wd == "show_info"){
       // Show Var Info
@@ -819,7 +808,10 @@ ScriptResult Script(string expr){
 
 
   // 判断是否为代码块
-  if(expr[0] == '{'){
+  /*
+    These code not working at newest wordparser
+  */
+  /*if(expr[0] == '{'){
     expr.erase(expr.begin());
     expr.erase(expr.end() - 1);
     //cout << "Expr:" << expr << " Formated: " << expr.substr(0) << endl;
@@ -835,7 +827,8 @@ ScriptResult Script(string expr){
     scr.Content.vtype = _bol;
     scr.Content.content[0] = (char)1;
     return scr;
-  }
+  }*/
+
 
   // 正常解析后交给Script
   vector<string> CodeArr = CodeSplit(expr,';');
@@ -843,8 +836,12 @@ ScriptResult Script(string expr){
     if(CodeArr[i] == "" || CodeArr[i] == " ")  continue;
     vector<word> tmplst = WordParser(CodeArr[i]);
     ScriptResult scr = Script(tmplst);
-    if(scr.res == _return)  return scr;
+    if(scr.res != _finally)  return scr;
     //word_list.push_back(tmplst);
   }
+  scr.res = _finally;
+  scr.Content.vtype = _bol;
+  scr.Content.content[0] = (char)1;
+  return scr;
   return scr;
 }
