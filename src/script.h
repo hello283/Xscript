@@ -12,6 +12,8 @@ string CoreVersion(){
   return "beta0_1";
 }
 
+map<int,string> lib_handles;
+
 size_t find(string str,char ch,int start = 0){
         int taowa = 0,taowa1 = 0;
         bool bkh = 0,xkh = 0,instr = 0;
@@ -619,17 +621,20 @@ ScriptResult Script(vector<word> wrd){
       vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
       size_t sz = getWordPos(wrd,chr,")") + 1;
       Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
+      int loop=0;
       //Type eval_res = eval(expr);
       //eval_res.content[0] = 1;
       //ScriptResult ifr = Script(wrd[sz].wd);
-      while(eval(expr).content[0] == 1){
+      do{
         //eval_res = 
+        loop++;
+        if(loop <= 2)  continue;
         ScriptResult ifr = Script(wrd[sz].wd);
         //if(eval_res.content[0] != 1)  break;
-        cout << (int)eval(expr).content[0] << " " << ifr.res << endl;
+        cout << (int)loop << endl;
         if(ifr.res == _lopcontinue)  continue;
         if(ifr.res != _finally)  return ifr;
-      }
+      }while(eval(expr).content[0] == 1);
     }else if(wrd[0].wd == "show_info"){
       // Show Var Info
     }else if(wrd[0].wd == "return"){
