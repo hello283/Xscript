@@ -3,6 +3,7 @@
 #include "type.h"
 #include "error.h"
 #include "const.h"
+#include "dlfcn.h"
 
 using namespace std;
 
@@ -12,7 +13,19 @@ string CoreVersion(){
   return "beta0_1";
 }
 
-map<int,string> lib_handles;
+enum hantype{
+  __lib,
+  //__proc
+};
+
+struct handle{
+  bool exist;
+  hantype htype;
+  int arg1;
+  string arg2;
+};
+
+map<int,handle> handles;
 
 size_t find(string str,char ch,int start = 0){
         int taowa = 0,taowa1 = 0;
@@ -602,6 +615,30 @@ ScriptResult Script(vector<word> wrd){
       pkgname = wrd[1].wd;
     }else if(wrd[0].wd == "exit"){
       exit(0);
+    }else if(wrd[0].wd == "execute"){
+      // Execute Bulit-in Command
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
+      if(expr[0].wd == "dlopen"){
+        if(expr.size() < 2) throw Error::SyntaxError("Usage: dlopen [file_uri] [var]");
+        string file_uri = expr[1].wd;
+        string varname = expr[2].wd;
+        Type* target = getTypeAddr(varname);
+
+        int usehandle=0;
+        // 轮询是否还有空闲句柄
+        while(handles[usehandle++].exist){}
+        handles[--usehandle].exist=true;
+        handles[usehandle].arg1 = (int)dlopen(file_uri.data(),RTLD_LAZY);
+        handles[usehandle].arg2 = file_uri;
+        handles[usehandle].htype = __lib;
+
+        // 完成内部指令运行
+        ScriptResult ldr;
+        ldr.Content.type = _var;
+        ldr.Content.content = itos(usehandle);
+        ldr.res=_finally;
+        return ldr;
+      }
     }else if(wrd[0].wd == "if"){
       vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
       size_t sz = getWordPos(wrd,chr,")") + 1;
