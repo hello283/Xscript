@@ -172,7 +172,7 @@ vector<word> WordParser(string code){
 		// Space
 		if(code[i] == ' ' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 				tmpwrd.clear();
 			}
@@ -182,7 +182,8 @@ vector<word> WordParser(string code){
 		// sep
 		if(code[i] == ',' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				//if(tmpwrd.wd == "true" || tmpwrd.wd == "false")  tmpwrd.word_type = con;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -194,7 +195,7 @@ vector<word> WordParser(string code){
 			continue;
 		}else if(code[i] == '=' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -207,7 +208,7 @@ vector<word> WordParser(string code){
 			continue;
 		}else if(code[i] == '+' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -219,7 +220,7 @@ vector<word> WordParser(string code){
 			continue;
 		}else if(code[i] == '-' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -231,7 +232,7 @@ vector<word> WordParser(string code){
 			continue;
 		}else if(code[i] == '*' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -243,7 +244,7 @@ vector<word> WordParser(string code){
 			continue;
 		}else if(code[i] == '/' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -255,7 +256,7 @@ vector<word> WordParser(string code){
 			continue;
 		}else if(code[i] == '%' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -270,7 +271,7 @@ vector<word> WordParser(string code){
 		// 括号处理
 		if(code[i] == '<' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -281,7 +282,7 @@ vector<word> WordParser(string code){
 			tmpwrd.clear();
 		}else if(code[i] == '>' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -292,7 +293,7 @@ vector<word> WordParser(string code){
 			tmpwrd.clear();
 		}else if(code[i] == '[' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -303,7 +304,7 @@ vector<word> WordParser(string code){
 			tmpwrd.clear();
 		}else if(code[i] == ']' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -314,7 +315,7 @@ vector<word> WordParser(string code){
 			tmpwrd.clear();
 		}else if(code[i] == '(' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -325,7 +326,7 @@ vector<word> WordParser(string code){
 			tmpwrd.clear();
 		}else if(code[i] == ')' && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
 
 				tmpwrd.clear();
@@ -373,8 +374,8 @@ vector<word> WordParser(string code){
 				result.push_back(tmpwrd);
 				break;
 			}else{
-				// If not num , then type default is 'name'.
-				tmpwrd.word_type = nam;
+				// If not num , then type default is 'name' but if this is bool type then is const.
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				//tmpwrd.wd += code[i];
 				result.push_back(tmpwrd);
 				break;

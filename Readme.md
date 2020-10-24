@@ -1,5 +1,18 @@
 # Xscript —— 一个简单的脚本语言
 
+## 已实现功能
+- class
+- function
+- for
+- while
+- var
+- const
+
+## BUGS
+**求个好人帮我把while和for的bug修一下吧QAQ**
+- for循环会超出循环的一次
+- function没有调用栈
+
 ## 基本语法
 
 ### 一段例程
@@ -49,13 +62,6 @@ Root addres: 0x10da72618
 
 在正常使用时，你必须把`src/const.h`里的`#define __SCRIPT_DEBUG`去掉<br>
 这个是用来查看调试输出的！<br>
-
-## TODO
-如果你是程序猿，你可以尝试修复或添加一些功能:<br>
-- 为eval方法添加括号支持
-- 加入for,while等循环
-- 为词法分析器增加==,<=,>=,!=,>,<等支持  <font color="green">已完成</font>
-- 为eval方法加入逻辑判断  <font color="green">已完成</font>
 
 ## About
 

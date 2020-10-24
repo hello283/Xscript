@@ -22,7 +22,8 @@ struct handle{
   bool exist;
   hantype htype;
   int arg1;
-  string arg2;
+  void* arg2;
+  string arg3;
 };
 
 map<int,handle> handles;
@@ -127,6 +128,7 @@ class ScriptResult{
 	 if(t==__SUCCESS__){
 		 Content.content+=(char)1;
 		 Content.type = _var;
+     Content.vtype = _bol;
 		 res = _finally;
 	 }
   }
@@ -503,6 +505,7 @@ Type CallFunction(Type *func,vector<word> call_line){
   if((*func).vtype != _function){
     throw Error::TypeError((*func).name);
   }
+  Type backscope = root_scope;
   call_line = WordCollection(call_line,getWordPos(call_line,chr,"(")+1,getWordPos(call_line,chr,")"));
   /*for(int i = 0;i < call_line.size();i++){
     cout << "cl:" << call_line[i].wd << endl;
@@ -538,6 +541,7 @@ Type CallFunction(Type *func,vector<word> call_line){
   //cout << "Res:" << Script((*func).content).Content.content << endl;;
   //cout << "Execute Result:" << ReturnVal.Content.content << endl;
   now_scope = old_scope;
+  root_scope = backscope;
   return Script((*func).content).Content;
   //return Type();
 }
@@ -613,32 +617,10 @@ ScriptResult Script(vector<word> wrd){
     }else if(wrd[0].wd == "package"){
       if(wrd[1].word_type != nam)  throw Error::SyntaxError("Invalid Syntax: Invalid Package Definition");
       pkgname = wrd[1].wd;
+      scr = ScriptResult(__SUCCESS__);
+      return scr;
     }else if(wrd[0].wd == "exit"){
       exit(0);
-    }else if(wrd[0].wd == "execute"){
-      // Execute Bulit-in Command
-      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
-      if(expr[0].wd == "dlopen"){
-        if(expr.size() < 2) throw Error::SyntaxError("Usage: dlopen [file_uri] [var]");
-        string file_uri = expr[1].wd;
-        string varname = expr[2].wd;
-        Type* target = getTypeAddr(varname);
-
-        int usehandle=0;
-        // 轮询是否还有空闲句柄
-        while(handles[usehandle++].exist){}
-        handles[--usehandle].exist=true;
-        handles[usehandle].arg1 = (int)dlopen(file_uri.data(),RTLD_LAZY);
-        handles[usehandle].arg2 = file_uri;
-        handles[usehandle].htype = __lib;
-
-        // 完成内部指令运行
-        ScriptResult ldr;
-        ldr.Content.type = _var;
-        ldr.Content.content = itos(usehandle);
-        ldr.res=_finally;
-        return ldr;
-      }
     }else if(wrd[0].wd == "if"){
       vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
       size_t sz = getWordPos(wrd,chr,")") + 1;
@@ -653,27 +635,50 @@ ScriptResult Script(vector<word> wrd){
       }else{
         throw Error::SyntaxError("Invalid Syntax: Invalid If Definition");
       }
-      //return ScriptResult(__);
+      scr = ScriptResult(__SUCCESS__);
+      return scr;
+    }else if(wrd[0].wd == "for"){
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
+      vector< vector<word> > exp = WordSpliter(expr,word(chr,","));
+      ScriptResult scr1 = Script(exp[0]);
+      if(scr1.res != _finally){
+        return scr1;
+      }
+
+      size_t sz = getWordPos(wrd,chr,")") + 1;
+      Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
+      while(eval(exp[1]).content[0] == 1){
+        ScriptResult ifr = Script(wrd[sz].wd);
+        ScriptResult scr2 = Script(exp[2]);
+        if(scr2.res != _finally){
+          return scr2;
+        }
+        if(ifr.res == _lopcontinue)  continue;
+        if(ifr.res != _finally)  return ifr;
+      }
+      scr = ScriptResult(__SUCCESS__);
+      return scr;
+
     }else if(wrd[0].wd == "while"){
       vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
       size_t sz = getWordPos(wrd,chr,")") + 1;
       Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
-      int loop=0;
       //Type eval_res = eval(expr);
       //eval_res.content[0] = 1;
       //ScriptResult ifr = Script(wrd[sz].wd);
       do{
         //eval_res = 
-        loop++;
-        if(loop <= 2)  continue;
         ScriptResult ifr = Script(wrd[sz].wd);
         //if(eval_res.content[0] != 1)  break;
-        cout << (int)loop << endl;
         if(ifr.res == _lopcontinue)  continue;
         if(ifr.res != _finally)  return ifr;
       }while(eval(expr).content[0] == 1);
+      scr = ScriptResult(__SUCCESS__);
+      return scr;
     }else if(wrd[0].wd == "show_info"){
       // Show Var Info
+      scr = ScriptResult(__SUCCESS__);
+      return scr;
     }else if(wrd[0].wd == "return"){
       scr = Script(WordCollection(wrd,1));
       scr.res = _return;
@@ -685,10 +690,10 @@ ScriptResult Script(vector<word> wrd){
       if(getTypeContent(wrd[1].wd).type == _not_exist){
 		  cout << "Var not exist!" << endl;
 		  exit(1);
-	  }else{
-		  setTypeContent(wrd[1].wd,Type());
-		  return ScriptResult(__SUCCESS__);
-	  }
+	    }else{
+  		  setTypeContent(wrd[1].wd,Type());
+		    return ScriptResult(__SUCCESS__);
+	    }
     }else if(wrd[0].wd == "run_idle"){
       //if(wrd[1].word_type != nam)  throw Error::SyntaxError("Invalid Syntax: Invalid Package Definition");
       #ifdef __SCRIPT_DEBUG
@@ -700,6 +705,8 @@ ScriptResult Script(vector<word> wrd){
       }catch(EasyFiles::FileError::CanNotOpenFile c){
         cout << "RuntimeError: Can not open file!";
       }
+      scr = ScriptResult(__SUCCESS__);
+      return scr;
     }else if(wrd[0].wd == "function"){
       #ifdef __SCRIPT_DEBUG
 	    cout << "Function" << endl;
@@ -733,6 +740,8 @@ ScriptResult Script(vector<word> wrd){
         scr.res = _finally;
         return scr;
       }
+      scr = ScriptResult(__SUCCESS__);
+      return scr;
     }else if(wrd[0].wd == "const"){
       vector< vector<word> > arg_list = WordSpliter(wrd,word(chr,","),1);
       for (size_t i = 0; i < arg_list.size(); i++) {
@@ -762,9 +771,7 @@ ScriptResult Script(vector<word> wrd){
         }
         cout << endl;*/
       }
-      scr.res = _finally;
-      scr.Content.vtype = _bol;
-      scr.Content.content[0] = (char)1;
+      scr = ScriptResult(__SUCCESS__);
       return scr;
     //}
   }else if(wrd[0].wd == "var"){
@@ -799,9 +806,7 @@ ScriptResult Script(vector<word> wrd){
         }
         cout << endl;*/
       }
-      scr.res = _finally;
-      scr.Content.vtype = _bol;
-      scr.Content.content[0] = (char)1;
+      scr = ScriptResult(__SUCCESS__);
       return scr;
     }
   }else if(wrd[0].word_type == con){
@@ -827,6 +832,11 @@ ScriptResult Script(vector<word> wrd){
       scr.Content.type = _var;
       scr.res = _finally;
       return scr;
+    }else if(wrd[0].wd == "true" || wrd[0].wd == "false"){
+      scr.Content.content += (wrd[0].wd == "true" ) ? (char)1 : (char)0;
+      scr.Content.vtype = _bol;
+      scr.Content.type = _var;
+      scr.res = _finally;
     }
   }
   return scr;
