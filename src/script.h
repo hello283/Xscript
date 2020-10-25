@@ -294,6 +294,7 @@ public:
           brackets++;
         }else if(tokens[i].wd == ")"){
           brackets--;
+          if(!brackets) token_buf.push_back(tokens[i]);
         }
         if((tokens[i].wd == "!=" || tokens[i].wd == "==" || tokens[i].wd == ">=" || tokens[i].wd == "<=" || tokens[i].wd == ">" || tokens[i].wd == "<") && brackets == 0){
           #ifdef __SCRIPT_DEBUG
@@ -328,6 +329,9 @@ public:
         }else{
           //throw Error::SyntaxError("Invalid Expr!");
         }
+        if(brackets){
+          token_buf.push_back(tokens[i]);
+        }
       }else{
         token_buf.push_back(tokens[i]);
       }
@@ -344,22 +348,6 @@ public:
     }
   }
 };
-
-vector< vector<int> > getTokens(vector<word> tokens,word left,word right){
-  vector< vector<int> > res;
-  for(int i = 0;i < tokens.size();i++){
-    //left.
-    int lpos = getWordPos(tokens,left.word_type,left.wd,i);
-    int rpos = getWordPos(tokens,right.word_type,right.wd,i);
-    if(lpos == WORD_NOTFOUND || rpos == WORD_NOTFOUND)  return res; // 若已经找不到匹配Token了，则直接返回
-    vector<int> pos;
-    pos.push_back(lpos+1);
-    pos.push_back(rpos);
-    res.push_back(pos);
-    //res.push_back(WordCollection(tokens,lpos+1,rpos));
-    i=rpos;
-  }
-}
 
 Type eval(ExprTree expr){
   // 左右两端哪个大先算哪个
@@ -540,9 +528,12 @@ Type CallFunction(Type *func,vector<word> call_line){
   #endif
   //cout << "Res:" << Script((*func).content).Content.content << endl;;
   //cout << "Execute Result:" << ReturnVal.Content.content << endl;
+
+  ScriptResult s = Script((*func).content);
+  //cout << "Content： " << s.Content.content << endl;
   now_scope = old_scope;
   root_scope = backscope;
-  return Script((*func).content).Content;
+  return s.Content;
   //return Type();
 }
 
@@ -551,9 +542,10 @@ ScriptResult Script(string expr);
 ScriptResult Script(vector<word> wrd){
   ScriptResult scr;
   // 判断主语
-  //cout << "Hey!" << wrd[0].wd << " " << wrd.size() << endl;
+  //cout << "Hey!" << wrd[0].wd << " " << wrd[0].word_type << endl;
   // 为了防止误判断，在wrd的大小大于1的情况下，不对变量进行解析
-  if(getTypeContent(wrd[0].wd).type != _not_exist){
+  if(wrd[0].word_type == nam && !iscmd(wrd[0].wd) && getTypeContent(wrd[0].wd).type != _not_exist){
+    //cout << "我tm直接我™.\n";
     if(wrd.size() <= 1){
       scr.Content = getTypeContent(wrd[0].wd);
       scr.res = _finally;
@@ -567,9 +559,7 @@ ScriptResult Script(vector<word> wrd){
         if(!setTypeContent(tname,tContent))  throw Error::NotDefine(tname);
         return ScriptResult(__SUCCESS__);
       }if(wrd[1].word_type == chr && wrd[1].wd == "("){
-        // Function Call
-        // Do it later
-        //cout << "Function x2" << g << endl;;
+        //lalala
 		    ScriptResult scs;
         scs.Content=CallFunction(getTypeAddr(wrd[0].wd),wrd);
 		    scs.res = _finally;
@@ -640,18 +630,18 @@ ScriptResult Script(vector<word> wrd){
     }else if(wrd[0].wd == "for"){
       vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
       vector< vector<word> > exp = WordSpliter(expr,word(chr,","));
-      ScriptResult scr1 = Script(exp[0]);
-      if(scr1.res != _finally){
-        return scr1;
+      ScriptResult scr1_ = Script(exp[0]);
+      if(scr1_.res != _finally){
+        return scr1_;
       }
 
       size_t sz = getWordPos(wrd,chr,")") + 1;
       Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
       while(eval(exp[1]).content[0] == 1){
         ScriptResult ifr = Script(wrd[sz].wd);
-        ScriptResult scr2 = Script(exp[2]);
-        if(scr2.res != _finally){
-          return scr2;
+        ScriptResult scr2_ = Script(exp[2]);
+        if(scr2_.res != _finally){
+          return scr2_;
         }
         if(ifr.res == _lopcontinue)  continue;
         if(ifr.res != _finally)  return ifr;
@@ -680,7 +670,11 @@ ScriptResult Script(vector<word> wrd){
       scr = ScriptResult(__SUCCESS__);
       return scr;
     }else if(wrd[0].wd == "return"){
-      scr = Script(WordCollection(wrd,1));
+      //Type evres
+      //cout << "I still here!"<< wrd[1].wd <<"\n";
+      scr.Content = Script(WordCollection(wrd,1)).Content;
+      //cout << scr.Content.content << endl;
+      //printf("EvalContent: %s\n",scr.Content.content);
       scr.res = _return;
       return scr;
     }else if(wrd[0].wd == "delete"){
@@ -710,10 +704,14 @@ ScriptResult Script(vector<word> wrd){
     }else if(wrd[0].wd == "function"){
       #ifdef __SCRIPT_DEBUG
 	    cout << "Function" << endl;
+      for(int i = 0;i < wrd.size();i++){
+        cout << wrd[i].wd << " ";
+      }
+      cout << endl;
       #endif
       size_t rpos = getWordPos(wrd,chr,")");
-      size_t block_pos = getWordPos(wrd,blo);
-      if(block_pos == WORD_NOTFOUND || rpos == WORD_NOTFOUND){
+      size_t block_pos = rpos+1;
+      if(rpos == WORD_NOTFOUND){
         throw Error::SyntaxError("Invalid Syntax: Invalid Function Definition");
       }else{
         vector<word> args = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
@@ -810,6 +808,12 @@ ScriptResult Script(vector<word> wrd){
       return scr;
     }
   }else if(wrd[0].word_type == con){
+    if(wrd.size() > 1){
+      // When token-buf max then 1,then it is a expr.
+      scr.Content = eval(wrd);
+      scr.res = _finally;
+      return scr;
+    }
     #ifdef __SCRIPT_DEBUG
     cout << "Const: " << wrd[0].wd << endl;
     #endif
@@ -884,16 +888,14 @@ ScriptResult Script(string expr){
 
   // 正常解析后交给Script
   vector<string> CodeArr = CodeSplit(expr,';');
+  //printf("CodeArray Size: %d\n",CodeArr.size());
+  //ScriptResult scr;
   for (size_t i = 0; i < CodeArr.size(); i++) {
     if(CodeArr[i] == "" || CodeArr[i] == " ")  continue;
     vector<word> tmplst = WordParser(CodeArr[i]);
-    ScriptResult scr = Script(tmplst);
+    scr = Script(tmplst);
+    if(CodeArr.size() == 1)  return scr;
     if(scr.res != _finally)  return scr;
-    //word_list.push_back(tmplst);
   }
-  scr.res = _finally;
-  scr.Content.vtype = _bol;
-  scr.Content.content[0] = (char)1;
-  return scr;
   return scr;
 }

@@ -320,6 +320,7 @@ vector<word> WordParser(string code){
 
 				tmpwrd.clear();
 			}
+			//printf("WordParser: Bracket(\n");
 			tmpwrd.word_type = chr;
 			tmpwrd.wd = "(";
 			result.push_back(tmpwrd);
@@ -331,6 +332,7 @@ vector<word> WordParser(string code){
 
 				tmpwrd.clear();
 			}
+			//printf("WordParser: Bracket)\n");
 			tmpwrd.word_type = chr;
 			tmpwrd.wd = ")";
 			result.push_back(tmpwrd);
@@ -375,7 +377,7 @@ vector<word> WordParser(string code){
 				break;
 			}else{
 				// If not num , then type default is 'name' but if this is bool type then is const.
-				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false" || tmpwrd.wd[0] == '"') ? con : nam;
 				//tmpwrd.wd += code[i];
 				result.push_back(tmpwrd);
 				break;
@@ -502,4 +504,9 @@ vector< vector<word> > WordSpliter(vector<word> obj,word split,int begin = 0,int
 	}
 
 	return rresult;
+}
+
+bool iscmd(string s){
+	if(s == "return")  return true;else if(s == "exit")  return true;else if(s == "var") return true;else if(s == "const")  return true;
+	return false;
 }
