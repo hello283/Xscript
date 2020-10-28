@@ -671,12 +671,53 @@ ScriptResult Script(vector<word> wrd){
       return scr;
     }else if(wrd[0].wd == "dlopen"){
       // Open Dymaic Library
-      vector< vector<word> > expr = WordSpliter(WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"))word(chr,";"));
-	  Type dlname = eval(expr[0]);
-	  if(dlname.vtype != _str){
-		throw Error::SyntaxError("TypeError");
-	  }
-	  /*Unfinish!*/
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
+	    Type dlname = eval(expr);
+	    if(dlname.vtype != _str){
+		    throw Error::TypeError("dlopen: TypeError");
+	    }
+      int fhandle = 0;
+      //while(handles[fhandle++].exist){};fhandle--;
+      printf("Handle: %d\n",fhandle);
+      handles[fhandle].arg2 = dlopen(dlname.content.data(),RTLD_LAZY);
+      scr.Content.content=itos(fhandle);
+	    scr.Content.vtype=_int;
+      scr.Content.type=_var;
+      scr.res=_finally;
+
+      return scr;
+    }else if(wrd[0].wd == "dlclose"){
+      // Close Dymaic Library
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
+	    Type dlname = eval(expr);
+	    if(dlname.vtype != _int){
+		    throw Error::TypeError("dlclose: TypeError");
+	    }
+      int fhandle = stoi_(dlname.content);
+      handles[fhandle].exist = false;
+      handles[fhandle].arg2=NULL;
+      dlclose(handles[fhandle].arg2);
+      scr.Content.content=itos(fhandle);
+	    scr.Content.vtype=_int;
+      scr.Content.type=_var;
+      scr.res=_finally;
+
+      return scr;
+    }else if(wrd[0].wd == "getdl"){
+      // Get dymaic library addres
+
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
+	    Type dlhandle = eval(expr);
+      if(dlhandle.vtype != _int){
+        throw Error::TypeError("getdl: TypeError");
+      }else if(stoi_(dlhandle.content) < 0){
+        throw Error::TypeError("getdl: handle too small");
+      }else if(handles[stoi_(dlhandle.content)].exist){
+        throw Error::TypeError("getdl: handle not exist");
+      }else{
+        scr.Content.vtype = _function;
+        scr.Content.fromDLL = handles[stoi_(dlhandle.content)].arg2;
+      }
       return scr;
     }else if(wrd[0].wd == "return"){
       //Type evres

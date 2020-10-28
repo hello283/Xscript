@@ -508,5 +508,6 @@ vector< vector<word> > WordSpliter(vector<word> obj,word split,int begin = 0,int
 
 bool iscmd(string s){
 	if(s == "return")  return true;else if(s == "exit")  return true;else if(s == "var") return true;else if(s == "const")  return true;
+	if(s == "for")  return true;else if(s == "while")  return true;else if(s == "dlopen") return true;else if(s == "dlclose")  return true;
 	return false;
 }

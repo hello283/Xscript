@@ -7,6 +7,8 @@ union fbyte{
   char ch[4];
 };
 
+//int sss;
+
 string itos(int r){
   //cout << "ItoS:" << r << endl;;
   string s = "****";
@@ -77,6 +79,7 @@ class Type{
         string content = "";
         vector< vector<word> > args;
         word funcontent;
+        void* fromDLL = NULL;
         map<string,Type> node;
 
         Type(){}
