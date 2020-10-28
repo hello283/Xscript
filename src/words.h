@@ -375,9 +375,9 @@ vector<word> WordParser(string code){
 				//tmpwrd.wd += code[i];
 				result.push_back(tmpwrd);
 				break;
-			}else{
+			}else if(tmpwrd.wd != ""){
 				// If not num , then type default is 'name' but if this is bool type then is const.
-				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false" || tmpwrd.wd[0] == '"') ? con : nam;
+				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				//tmpwrd.wd += code[i];
 				result.push_back(tmpwrd);
 				break;

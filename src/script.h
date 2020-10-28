@@ -671,24 +671,24 @@ ScriptResult Script(vector<word> wrd){
       return scr;
     }else if(wrd[0].wd == "dlopen"){
       // Open Dymaic Library
-      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
-	    Type dlname = eval(expr);
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")") - 1);
+      printf("%d",expr.size());
+	    Type dlname = Script(expr).Content;
 	    if(dlname.vtype != _str){
 		    throw Error::TypeError("dlopen: TypeError");
 	    }
       int fhandle = 0;
-      //while(handles[fhandle++].exist){};fhandle--;
-      printf("Handle: %d\n",fhandle);
+      while(handles[fhandle++].exist){};fhandle--;
       handles[fhandle].arg2 = dlopen(dlname.content.data(),RTLD_LAZY);
       scr.Content.content=itos(fhandle);
 	    scr.Content.vtype=_int;
       scr.Content.type=_var;
       scr.res=_finally;
-
+      
       return scr;
     }else if(wrd[0].wd == "dlclose"){
       // Close Dymaic Library
-      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")") - 1);
 	    Type dlname = eval(expr);
 	    if(dlname.vtype != _int){
 		    throw Error::TypeError("dlclose: TypeError");
@@ -706,7 +706,7 @@ ScriptResult Script(vector<word> wrd){
     }else if(wrd[0].wd == "getdl"){
       // Get dymaic library addres
 
-      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")") - 1);
 	    Type dlhandle = eval(expr);
       if(dlhandle.vtype != _int){
         throw Error::TypeError("getdl: TypeError");

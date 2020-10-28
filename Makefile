@@ -10,6 +10,9 @@ clean:
 
 all: IDLE TEST
 
+debug:all
+	gdb ./idle
+
 run: all
 	./idle
 	
