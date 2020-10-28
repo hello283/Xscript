@@ -1,4 +1,4 @@
-CC=g++
+CC=g++ -static
 
 IDLE: *.cpp src/*
 	$(CC) ./idle.cpp -o idle -std=c++11 -w -g

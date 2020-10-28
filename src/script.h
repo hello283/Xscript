@@ -672,7 +672,7 @@ ScriptResult Script(vector<word> wrd){
     }else if(wrd[0].wd == "return"){
       //Type evres
       //cout << "I still here!"<< wrd[1].wd <<"\n";
-      scr.Content = Script(WordCollection(wrd,1)).Content;
+      scr.Content = eval(WordCollection(wrd,1));
       //cout << scr.Content.content << endl;
       //printf("EvalContent: %s\n",scr.Content.content);
       scr.res = _return;
