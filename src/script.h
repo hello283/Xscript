@@ -669,6 +669,15 @@ ScriptResult Script(vector<word> wrd){
       // Show Var Info
       scr = ScriptResult(__SUCCESS__);
       return scr;
+    }else if(wrd[0].wd == "dlopen"){
+      // Open Dymaic Library
+      vector< vector<word> > expr = WordSpliter(WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"))word(chr,";"));
+	  Type dlname = eval(expr[0]);
+	  if(dlname.vtype != _str){
+		throw Error::SyntaxError("TypeError");
+	  }
+	  /*Unfinish!*/
+      return scr;
     }else if(wrd[0].wd == "return"){
       //Type evres
       //cout << "I still here!"<< wrd[1].wd <<"\n";
@@ -688,19 +697,6 @@ ScriptResult Script(vector<word> wrd){
   		  setTypeContent(wrd[1].wd,Type());
 		    return ScriptResult(__SUCCESS__);
 	    }
-    }else if(wrd[0].wd == "run_idle"){
-      //if(wrd[1].word_type != nam)  throw Error::SyntaxError("Invalid Syntax: Invalid Package Definition");
-      #ifdef __SCRIPT_DEBUG
-      cout << "Run IDLE Script..." << endl;
-      #endif
-      try{
-        cout << "Script: " << Format(EasyFiles::ReadFile(wrd[1].wd.substr(1,wrd[1].wd.size() - 1 - 1))) << endl;
-        Script(Format(EasyFiles::ReadFile(wrd[1].wd.substr(1,wrd[1].wd.size() - 1 - 1))));
-      }catch(EasyFiles::FileError::CanNotOpenFile c){
-        cout << "RuntimeError: Can not open file!";
-      }
-      scr = ScriptResult(__SUCCESS__);
-      return scr;
     }else if(wrd[0].wd == "function"){
       #ifdef __SCRIPT_DEBUG
 	    cout << "Function" << endl;
