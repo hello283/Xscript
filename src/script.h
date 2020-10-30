@@ -257,7 +257,7 @@ string Format(string s){
       }else{
         blank_in_start = false;
       }
-    }
+    } 
 
     // 优化空格,lz不会正则，别tm烦我
     if(s[i] == ' ' && !str){
@@ -282,7 +282,7 @@ public:
   Type content;
   vector<ExprTree> lr;
   ExprTree(){} // For default
-  
+
   // Create Expr Tree
   ExprTree(vector<word> tokens){
     lr.resize(2);
@@ -495,15 +495,11 @@ Type CallFunction(Type *func,vector<word> call_line){
   }
   Type backscope = root_scope;
   call_line = WordCollection(call_line,getWordPos(call_line,chr,"(")+1,getWordPos(call_line,chr,")"));
-  /*for(int i = 0;i < call_line.size();i++){
-    cout << "cl:" << call_line[i].wd << endl;
-  }*/
   //cout << "Splited:" << WordSpliter(call_line,word(chr,",")).size() << endl;
-  vector< vector<word> > carr = WordSpliter(call_line,word(chr,",")); // 
+  vector< vector<word> > carr = WordSpliter(call_line,word(chr,",")); //
   // 对参数进行处理
   vector<Type> tarr;
   for(int i = 0;i < carr.size();i++){
-    //cout << carr[i][0].wd << endl;
     tarr.push_back(Script(carr[i]).Content);
   }
   //cout << "run,here" << endl;
@@ -512,24 +508,22 @@ Type CallFunction(Type *func,vector<word> call_line){
   now_scope = func;
   // 参数定义
   for(int i = 0;i < (*func).args.size();i++){
-    cout << now_scope << endl;
     Script((*func).args[i]);
     // 获取参数名称
     size_t namepos = getWordPos((*func).args[i],chr,Text::ToString("="));
     if(namepos == WORD_NOTFOUND){
       namepos = (*func).args[i].size() - 1;
     }
-    cout << "Name: " << (*func).args[i][namepos].wd << endl;
+    //cout << "Name: " << (*func).args[i][namepos].wd << endl;
     setTypeContent((*func).args[i][namepos].wd,tarr[i]);
   }
   #ifdef __SCRIPT_DEBUG
 	cout << now_scope << endl;
-  //cout << "Begin Code Run...\n";
-  #endif
   cout << "fromDLL: " << func->fromDLL << endl;
+  #endif
   if(func->fromDLL != NULL){
-    ScriptResult (*fromDym) (Type *scope) = (ScriptResult (*)(Type *scope))func->fromDLL;
-    ScriptResult s = (*fromDym)(func);
+    ScriptResult (*fromDym) (vector<Type>) = (ScriptResult (*)(vector<Type>))func->fromDLL;
+    ScriptResult s = (*fromDym)(tarr);
     now_scope = old_scope;
     root_scope = backscope;
     return s.Content;
@@ -662,7 +656,7 @@ ScriptResult Script(vector<word> wrd){
       //eval_res.content[0] = 1;
       //ScriptResult ifr = Script(wrd[sz].wd);
       do{
-        //eval_res = 
+        //eval_res =
         ScriptResult ifr = Script(wrd[sz].wd);
         //if(eval_res.content[0] != 1)  break;
         if(ifr.res == _lopcontinue)  continue;
@@ -676,7 +670,7 @@ ScriptResult Script(vector<word> wrd){
       return scr;
     }else if(wrd[0].wd == "dlopen"){
       // Open Dymaic Library
-      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")") - 1);
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
       //printf("%d",expr.size());
 	    Type dlname = Script(expr).Content;
 	    if(dlname.vtype != _str){
@@ -690,11 +684,11 @@ ScriptResult Script(vector<word> wrd){
 	    scr.Content.vtype=_int;
       scr.Content.type=_var;
       scr.res=_finally;
-      
+
       return scr;
     }else if(wrd[0].wd == "dlclose"){
       // Close Dymaic Library
-      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")") - 1);
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
 	    Type dlname = eval(expr);
 	    if(dlname.vtype != _int){
 		    throw Error::TypeError("dlclose: TypeError");
@@ -712,7 +706,7 @@ ScriptResult Script(vector<word> wrd){
     }else if(wrd[0].wd == "getdl"){
       // Get dymaic library addres
 
-      vector< vector<word> > expr = WordSpliter(WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")") - 1),word(chr,","));
+      vector< vector<word> > expr = WordSpliter(WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")")),word(chr,","));
 	    if(expr.size() <= 1){
   		  throw Error::SyntaxError("getdl : invalid call format");
 	    }

@@ -146,6 +146,7 @@ vector<word> WordParser(string code){
 			if(content == false){
 				tmpwrd.wd += code[i];
 				result.push_back(tmpwrd);
+				tmpwrd.clear();
 				continue;
 			}
 		}
@@ -470,7 +471,7 @@ vector<word> WordCollection(vector<word> obj,int begin = 0,int end = 0,bool find
 		if(obj[i].word_type == chr && obj[i].wd == "(" && !findBracket) bk1++;
 		if(obj[i].word_type == chr && obj[i].wd == ")" && !findBracket) bk1--;
 	}
-
+	
 	return result;
 }
 

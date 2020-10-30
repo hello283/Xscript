@@ -1,0 +1,1 @@
+dlopen("./include/lib/stdlib");var print=getdl(0,"print");var s=0;print("Hell");

@@ -1,11 +1,15 @@
-#include <iostream>
+#include "../src/script.h"
 
 using namespace std;
 
 int main(){
-    int i=0;
-    for(;i <= 10;i++){
-        ;
+    string str = "\
+    dlopen(\"err\",233)\
+    ";
+    str=Format(str);
+    vector<word> srtarr=WordParser(str);
+    for(int i = 0;i < srtarr.size();i++){
+        cout << srtarr[i].wd << " ";
     }
-    cout << i << endl;
+    cout << endl;
 }
