@@ -87,6 +87,8 @@ int main(int argc , const char **argv){
       }
     }catch(Error::SyntaxError syx){
       syx.what();
+    }catch(Error::TypeError tpx){
+      tpx.what();
     }
   }
 	//string a = Format(EasyFiles::ReadFile("./sample/first.xs0"));

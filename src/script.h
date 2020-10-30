@@ -526,9 +526,14 @@ Type CallFunction(Type *func,vector<word> call_line){
 	cout << now_scope << endl;
   //cout << "Begin Code Run...\n";
   #endif
-  //cout << "Res:" << Script((*func).content).Content.content << endl;;
-  //cout << "Execute Result:" << ReturnVal.Content.content << endl;
-
+  cout << "fromDLL: " << func->fromDLL << endl;
+  if(func->fromDLL != NULL){
+    ScriptResult (*fromDym) (Type *scope) = (ScriptResult (*)(Type *scope))func->fromDLL;
+    ScriptResult s = (*fromDym)(func);
+    now_scope = old_scope;
+    root_scope = backscope;
+    return s.Content;
+  }
   ScriptResult s = Script((*func).content);
   //cout << "Content： " << s.Content.content << endl;
   now_scope = old_scope;
@@ -680,7 +685,7 @@ ScriptResult Script(vector<word> wrd){
       int fhandle = 0;
       while(handles[fhandle++].exist){};fhandle--;
       handles[fhandle].arg2 = dlopen(dlname.content.data(),RTLD_LAZY);
-	  handles[fhandle].exist = true;
+	    handles[fhandle].exist = true;
       scr.Content.content=itos(fhandle);
 	    scr.Content.vtype=_int;
       scr.Content.type=_var;
@@ -708,19 +713,24 @@ ScriptResult Script(vector<word> wrd){
       // Get dymaic library addres
 
       vector< vector<word> > expr = WordSpliter(WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")") - 1),word(chr,","));
-	  if(expr.size() <= 1){
-		throw Error::SyntaxError("getdl : invalid call format");
-	  }
+	    if(expr.size() <= 1){
+  		  throw Error::SyntaxError("getdl : invalid call format");
+	    }
 	    Type dlhandle = eval(expr[0]);
-	  if(dlhandle.vtype != _int){
-        throw Error::TypeError("getdl: TypeError");
+      //printf();
+	    if(dlhandle.vtype != _int){
+        throw Error::TypeError("getdl: TypeError:" + to_string(dlhandle.vtype));
       }else if(stoi_(dlhandle.content) < 0){
         throw Error::TypeError("getdl: handle too small");
-      }else if(handles[stoi_(dlhandle.content)].exist){
+      }else if(!handles[stoi_(dlhandle.content)].exist){
         throw Error::TypeError("getdl: handle not exist");
       }else{
         scr.Content.vtype = _function;
         scr.Content.fromDLL = dlsym(handles[stoi_(dlhandle.content)].arg2,eval(expr[1]).content.data());
+        scr.Content.type = _var;
+        #ifdef __SCRIPT_DEBUG
+        cout << "fromDLL:" << scr.Content.fromDLL << endl;
+        #endif
       }
       return scr;
     }else if(wrd[0].wd == "return"){
