@@ -672,7 +672,7 @@ ScriptResult Script(vector<word> wrd){
     }else if(wrd[0].wd == "dlopen"){
       // Open Dymaic Library
       vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")") - 1);
-      printf("%d",expr.size());
+      //printf("%d",expr.size());
 	    Type dlname = Script(expr).Content;
 	    if(dlname.vtype != _str){
 		    throw Error::TypeError("dlopen: TypeError");
@@ -680,6 +680,7 @@ ScriptResult Script(vector<word> wrd){
       int fhandle = 0;
       while(handles[fhandle++].exist){};fhandle--;
       handles[fhandle].arg2 = dlopen(dlname.content.data(),RTLD_LAZY);
+	  handles[fhandle].exist = true;
       scr.Content.content=itos(fhandle);
 	    scr.Content.vtype=_int;
       scr.Content.type=_var;
@@ -706,9 +707,12 @@ ScriptResult Script(vector<word> wrd){
     }else if(wrd[0].wd == "getdl"){
       // Get dymaic library addres
 
-      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")") - 1);
-	    Type dlhandle = eval(expr);
-      if(dlhandle.vtype != _int){
+      vector< vector<word> > expr = WordSpliter(WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")") - 1),word(chr,","));
+	  if(expr.size() <= 1){
+		throw Error::SyntaxError("getdl : invalid call format");
+	  }
+	    Type dlhandle = eval(expr[0]);
+	  if(dlhandle.vtype != _int){
         throw Error::TypeError("getdl: TypeError");
       }else if(stoi_(dlhandle.content) < 0){
         throw Error::TypeError("getdl: handle too small");
@@ -716,7 +720,7 @@ ScriptResult Script(vector<word> wrd){
         throw Error::TypeError("getdl: handle not exist");
       }else{
         scr.Content.vtype = _function;
-        scr.Content.fromDLL = handles[stoi_(dlhandle.content)].arg2;
+        scr.Content.fromDLL = dlsym(handles[stoi_(dlhandle.content)].arg2,eval(expr[1]).content.data());
       }
       return scr;
     }else if(wrd[0].wd == "return"){
