@@ -136,6 +136,7 @@ class ScriptResult{
 
 // 变量
 Type getTypeContent(string name){
+  cout << "GET:" << name << endl;
   if(name == ""){
     return Type();
   }
@@ -493,7 +494,7 @@ Type CallFunction(Type *func,vector<word> call_line){
   if((*func).vtype != _function){
     throw Error::TypeError((*func).name);
   }
-  Type backscope = root_scope;
+  //Type backscope = root_scope;
   call_line = WordCollection(call_line,getWordPos(call_line,chr,"(")+1,getWordPos(call_line,chr,")"));
   //cout << "Splited:" << WordSpliter(call_line,word(chr,",")).size() << endl;
   vector< vector<word> > carr = WordSpliter(call_line,word(chr,",")); //
@@ -525,13 +526,13 @@ Type CallFunction(Type *func,vector<word> call_line){
     ScriptResult (*fromDym) (vector<Type>) = (ScriptResult (*)(vector<Type>))func->fromDLL;
     ScriptResult s = (*fromDym)(tarr);
     now_scope = old_scope;
-    root_scope = backscope;
+    //root_scope = backscope;
     return s.Content;
   }
   ScriptResult s = Script((*func).content);
   //cout << "Content： " << s.Content.content << endl;
   now_scope = old_scope;
-  root_scope = backscope;
+  //root_scope = backscope;
   return s.Content;
   //return Type();
 }
@@ -541,7 +542,7 @@ ScriptResult Script(string expr);
 ScriptResult Script(vector<word> wrd){
   ScriptResult scr;
   // 判断主语
-  cout << "Hey!" << wrd[0].wd << " " << wrd[0].word_type << endl;
+  //cout << "Hey!" << wrd[0].wd << " " << wrd[0].word_type << endl;
   // 为了防止误判断，在wrd的大小大于1的情况下，不对变量进行解析
   if(wrd[0].word_type == nam && !iscmd(wrd[0].wd) && getTypeContent(wrd[0].wd).type != _not_exist){
     //cout << "我tm直接我™.\n";
@@ -914,11 +915,11 @@ ScriptResult Script(string expr){
     scr.Content.content[0] = (char)1;
     return scr;
   }
-  if(getTypeContent(expr).type != _not_exist){
+  /*if(getTypeContent(expr).type != _not_exist && !iscmd(expr)){
     scr.Content = getTypeContent(expr);
     scr.res = _finally;
     return scr;
-  }
+  }*/
 
 
   // 判断是否为代码块
