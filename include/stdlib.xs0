@@ -1,6 +1,6 @@
-const std = class{
-    #SHARE "__Xscript_Include__/lib/ios.so";
-    const print = function(str){};
-    const input = function(str){};
-    #END_SHARE;
+var stdhandle = dlopen("./include/lib/stdlib");
+const std=class(){
+    var print=getdl(stdhandle,"print");
+    var max=getdl(stdhandle,"max");
+    var min=getdl(stdhandle,"min");
 };

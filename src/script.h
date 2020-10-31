@@ -735,6 +735,13 @@ ScriptResult Script(vector<word> wrd){
       //printf("EvalContent: %s\n",scr.Content.content);
       scr.res = _return;
       return scr;
+    }else if(wrd[0].wd == "import"){
+      vector< vector<word> > expr = WordSpliter(WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")")),word(chr,","));
+      if(expr.size() != 1){
+        throw Error::SyntaxError("import: invalid call format");
+      }
+      Type name = eval(expr[0]);
+      return Script(EasyFiles::ReadFile(name.content));
     }else if(wrd[0].wd == "delete"){
       #ifdef __SCRIPT_DEBUG
       //cout << wrd.size() << endl;
@@ -787,6 +794,7 @@ ScriptResult Script(vector<word> wrd){
       return scr;
     }else if(wrd[0].wd == "const"){
       vector< vector<word> > arg_list = WordSpliter(wrd,word(chr,","),1);
+      Type con;
       for (size_t i = 0; i < arg_list.size(); i++) {
         //if(arg_list[i][1].word_type != nam)  throw Error::SyntaxError("Invalid Syntax: Invalid Const Definition");
         if(arg_list[i][0].word_type != nam)  cout << "Invalid Syntax: Invalid Const Definition\n";
@@ -798,13 +806,14 @@ ScriptResult Script(vector<word> wrd){
         if(arg_list[i].size() > 2 && (arg_list[i][1].word_type != chr || arg_list[i][1].wd != "="))  cout << "Invalid Syntax!\n";
         if(arg_list[i].size() <= 2){
           //cout << "Var Not Inited!\n";
-          Type con(now_scope);
+          con.parent = now_scope;
           con.mod = _const;
           con.type = _var;
           if(!newTypeContent(tname,con)) throw Error::AlreadyExist(tname);
           continue;
         }
-        Type con = eval(WordCollection(arg_list[i],2));
+        con = eval(WordCollection(arg_list[i],2));
+        con.parent = now_scope;
         con.name = tname;
         con.mod = _const;
 
@@ -814,11 +823,13 @@ ScriptResult Script(vector<word> wrd){
         }
         cout << endl;*/
       }
-      scr = ScriptResult(__SUCCESS__);
+      scr.res = _finally;
+      scr.Content = con;
       return scr;
     //}
   }else if(wrd[0].wd == "var"){
       vector< vector<word> > arg_list = WordSpliter(wrd,word(chr,","),1);
+      Type con;
       for (size_t i = 0; i < arg_list.size(); i++) {
         //if(arg_list[i][1].word_type != nam)  throw Error::SyntaxError("Invalid Syntax: Invalid Const Definition");
         if(arg_list[i][0].word_type != nam)  cout << "Invalid Syntax: Invalid Const Definition\n";
@@ -832,14 +843,15 @@ ScriptResult Script(vector<word> wrd){
           #ifdef __SCRIPT_DEBUG
           cout << "Var Not Inited!\n";
           #endif
-          Type con(now_scope);
+          con.parent = now_scope;
           con.name = tname;
           con.mod = _none;
           con.type = _var;
           if(!newTypeContent(tname,con)) throw Error::AlreadyExist(tname);
           continue;
         }
-        Type con = eval(WordCollection(arg_list[i],2));
+        con = eval(WordCollection(arg_list[i],2));
+        con.parent = now_scope;
         con.name = tname;
         con.mod = _none;
 
@@ -849,7 +861,8 @@ ScriptResult Script(vector<word> wrd){
         }
         cout << endl;*/
       }
-      scr = ScriptResult(__SUCCESS__);
+      scr.res = _finally;
+      scr.Content = con;
       return scr;
     }
   }else if(wrd[0].word_type == con){
