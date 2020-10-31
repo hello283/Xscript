@@ -1,2 +1,3 @@
 import("./include/stdlib.xs0");
-std.print("Hello,World!");
+var MAIN=class(){var s="hello";var fun=function(){std.print("hello,world!");return 0;};};
+MAIN.fun();

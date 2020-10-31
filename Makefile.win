@@ -1,17 +1,20 @@
 CC=g++	
 
-IDLE: *.cpp src/*
-	$(CC) ./idle.cpp	 -o idle	 -std=c++11 -w -g
-Xscript: *.cpp src/*
-	$(CC) ./script.cpp	 -o script	 -std=c++11 -w -g
+lib: include/lib
+	cd include/lib && make all
+
+IDLE: idle.cpp src/*
+	$(CC) ./idle.cpp	 -o idle	 -std=c++11 -w -g -pipe -O2
+Xscript: script.cpp src/*
+	$(CC) ./script.cpp	 -o script	 -std=c++11 -w -g -pipe -O2
 
 clean:
 	rm -rf main.exe idle.exe idle main
 
-all: IDLE Xscript
+all: IDLE Xscript lib
 
 debug:all
-	gdb ./idle
+	gdb ./script
 
 run: all
 	./idle

@@ -541,7 +541,7 @@ ScriptResult Script(string expr);
 ScriptResult Script(vector<word> wrd){
   ScriptResult scr;
   // 判断主语
-  //cout << "Hey!" << wrd[0].wd << " " << wrd[0].word_type << endl;
+  cout << "Hey!" << wrd[0].wd << " " << wrd[0].word_type << endl;
   // 为了防止误判断，在wrd的大小大于1的情况下，不对变量进行解析
   if(wrd[0].word_type == nam && !iscmd(wrd[0].wd) && getTypeContent(wrd[0].wd).type != _not_exist){
     //cout << "我tm直接我™.\n";
@@ -954,6 +954,7 @@ ScriptResult Script(string expr){
     scr = Script(tmplst);
     if(CodeArr.size() == 1)  return scr;
     if(scr.res != _finally)  return scr;
+    //cout << CodeArr[i] << endl;
   }
   return scr;
 }
