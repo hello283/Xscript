@@ -2,7 +2,7 @@ import("./include/stdlib.xs0");
 var MAIN=class(){
     var s="hello";
     var fun=function(){
-        std.print("hello,world!");
+        std.print("hello,world!",std.charToStr(10),std.endl);
         return 0;
     };
 };

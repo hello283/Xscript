@@ -86,6 +86,7 @@ int main(int argc , const char **argv){
       string expr = Format(EasyFiles::ReadFile("./test/test.xs0"));
       //Script(expr);
       ScriptResult scr = Script(expr);
+      #ifdef __SCRIPT_DEBUG
       if(scr.Content.vtype == _int){
         cout << stoi_(scr.Content.content) << endl;
       }else if(scr.Content.vtype == _str){
@@ -97,6 +98,7 @@ int main(int argc , const char **argv){
       }else{
         cout << scr.Content.content << endl;
       }
+      #endif
     }catch(Error::SyntaxError syx){
       syx.what();
     }catch(Error::TypeError tpx){

@@ -136,21 +136,23 @@ class ScriptResult{
 
 // 变量
 Type getTypeContent(string name){
+  #ifdef __SCRIPT_DEBUG
   cout << "GET:" << name << endl;
+  #endif
   if(name == ""){
     return Type();
   }
   TypeFinder tpf = getPath(name);
   Type global = root_scope.getNode(tpf);
-  Type inThisParent = now_scope->parent->getNode(tpf);
-  Type thisScope = now_scope->getNode(tpf);
   if(global.type != _not_exist){
     return global;
-  }else if(inThisParent.type != _not_exist){
-    return inThisParent;
-  }else{
-    return thisScope;
   }
+  Type inThisParent = now_scope->parent->getNode(tpf);
+  if(inThisParent.type != _not_exist){
+    return inThisParent;
+  }
+  Type thisScope = now_scope->getNode(tpf);
+    return thisScope;
 }
 
 Type *getTypeAddr(string name){
@@ -159,16 +161,16 @@ Type *getTypeAddr(string name){
     return &unk;
   }
   TypeFinder tpf = getPath(name);
-  Type* global = root_scope.getNodeAddr(tpf);
-  Type* inThisParent = now_scope->parent->getNodeAddr(tpf);
-  Type* thisScope = now_scope->getNodeAddr(tpf);
-  if((*global).type != _not_exist){
+  Type *global = root_scope.getNodeAddr(tpf);
+  if(global->type != _not_exist){
     return global;
-  }else if((*inThisParent).type != _not_exist){
-    return inThisParent;
-  }else{
-    return thisScope;
   }
+  Type *inThisParent = now_scope->parent->getNodeAddr(tpf);
+  if(inThisParent->type != _not_exist){
+    return inThisParent;
+  }
+  Type *thisScope = now_scope->getNodeAddr(tpf);
+    return thisScope;
 }
 
 bool setTypeContent(string name,Type write,bool inglobal = false){
