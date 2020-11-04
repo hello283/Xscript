@@ -61,7 +61,7 @@ string getCompiler() {
 
 int main(int argc , const char **argv){
   cout << "Xscript IDLE\nXscript Core:" << CoreVersion() << getCompiler() << getVer() << " on " << OSType() << "\nPowered by Xiaokang0010\n";
-  cout << "Root addres: " << now_scope << endl;
+  cout << "Root addres: " << &now_scope << endl;
   while(true){
     #ifndef __WIN32
     cout << "\033[32m>>> \033[0m";

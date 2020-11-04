@@ -81,6 +81,7 @@ string getCompiler() {
 int main(int argc , const char **argv){
   //cout << "Xscript IDLE\nXscript Core:" << CoreVersion() << getCompiler() << getVer() << " on " << OSType() << "\nPowered by Xiaokang0010\n";
   //cout << "Root addres: " << now_scope << endl;
+  //init();
   while(true){
     try{
       string expr = Format(EasyFiles::ReadFile("./test/test.xs0"));

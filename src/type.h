@@ -69,9 +69,14 @@ TypeFinder getPath(string name){
 
 // 一些类型
 class Type{
+    private:
     public:
-        // 变量定义
         Type* parent = this;
+        Type& getParent(){
+          return *parent;
+        };
+
+        // 变量定义
         VType vtype = _emp;
         TType type = _not_exist;
         TModifier mod = _temp;

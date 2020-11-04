@@ -134,6 +134,19 @@ class ScriptResult{
   }
 };
 
+// 判断Type指针是否安全，若否，则使其安全
+bool checkSafe(Type* target){
+  for(map<string,Type>::iterator iter=target->node.begin();iter != target->node.end();iter++){
+    checkSafe(&iter->second);
+    if(iter->second.parent != target){
+      #ifdef __SCRIPT_DEBUG
+      cout << "野指针:" << iter->second.parent << " " << target << endl;
+      #endif
+      iter->second.parent = target;
+    }
+  }
+}
+
 // 变量
 Type getTypeContent(string name){
   #ifdef __SCRIPT_DEBUG
@@ -142,17 +155,17 @@ Type getTypeContent(string name){
   if(name == ""){
     return Type();
   }
+  checkSafe(&root_scope);
+  //checkSafe(now_scope);
   TypeFinder tpf = getPath(name);
   Type global = root_scope.getNode(tpf);
-  if(global.type != _not_exist){
-    return global;
-  }
-  Type inThisParent = now_scope->parent->getNode(tpf);
-  if(inThisParent.type != _not_exist){
-    return inThisParent;
-  }
+  if(global.type != _not_exist) return global;
   Type thisScope = now_scope->getNode(tpf);
-    return thisScope;
+  if(thisScope.type != _not_exist) return thisScope;
+
+  Type inThisParent = now_scope->parent->getNode(tpf);
+    return inThisParent;
+  
 }
 
 Type *getTypeAddr(string name){
@@ -160,26 +173,30 @@ Type *getTypeAddr(string name){
   if(name == ""){
     return &unk;
   }
+  checkSafe(&root_scope);
+  //checkSafe(now_scope);
   TypeFinder tpf = getPath(name);
   Type *global = root_scope.getNodeAddr(tpf);
   if(global->type != _not_exist){
     return global;
   }
-  Type *inThisParent = now_scope->parent->getNodeAddr(tpf);
-  if(inThisParent->type != _not_exist){
-    return inThisParent;
-  }
   Type *thisScope = now_scope->getNodeAddr(tpf);
-    return thisScope;
+  if(thisScope->type != _not_exist)  return thisScope;
+  Type *inThisParent = now_scope->parent->getNodeAddr(tpf);
+    return inThisParent;
 }
 
 bool setTypeContent(string name,Type write,bool inglobal = false){
+  checkSafe(&root_scope);
+  //checkSafe(now_scope);
   TypeFinder tpf = getPath(name);
   if(inglobal)  return root_scope.setNode(tpf,write);
   return now_scope->setNode(tpf,write);
 }
 
 bool newTypeContent(string name,Type write,bool inglobal = false){
+  checkSafe(&root_scope);
+  checkSafe(now_scope);
   TypeFinder tpf = getPath(name);
   if(inglobal)  return root_scope.newNode(tpf,write);
   return now_scope->newNode(tpf,write);
@@ -580,9 +597,16 @@ ScriptResult Script(vector<word> wrd){
       if(rpos == WORD_NOTFOUND || (rpos != WORD_NOTFOUND && wrd[rpos-1].wd == "(")){
         // No base class
         Type newclass(now_scope);
+        newclass.type = _var;
+        newclass.vtype = _str;
+        newclass.name = "flag";
+        newclass.parent = now_scope;
+
         Type* oldScope = now_scope;
         now_scope = &newclass;
+
         Script(wrd[block_pos].wd);
+
         now_scope = oldScope;
         newclass.type = _var;
         newclass.vtype = _str;
@@ -595,9 +619,12 @@ ScriptResult Script(vector<word> wrd){
         if(baseclass.type == _not_exist)  throw Error::NotDefine(wrd[rpos-1].wd);
         Type newclass = baseclass;
         newclass.parent = now_scope;
+
         Type* oldScope = now_scope;
         now_scope = &newclass;
+
         Script(wrd[block_pos].wd);
+
         now_scope = oldScope;
         newclass.type = _var;
         newclass.vtype = _str;
@@ -810,13 +837,17 @@ ScriptResult Script(vector<word> wrd){
         if(arg_list[i].size() <= 2){
           //cout << "Var Not Inited!\n";
           con.parent = now_scope;
+          //cout << "PARENT:" << con.parent << " " << now_scope << endl;
           con.mod = _const;
+          con.name = tname;
           con.type = _var;
           if(!newTypeContent(tname,con)) throw Error::AlreadyExist(tname);
           continue;
         }
+        con.parent = now_scope;
         con = eval(WordCollection(arg_list[i],2));
         con.parent = now_scope;
+        //cout << "PARENT:" << con.parent << " " << now_scope << endl;
         con.name = tname;
         con.mod = _const;
 
@@ -847,14 +878,17 @@ ScriptResult Script(vector<word> wrd){
           cout << "Var Not Inited!\n";
           #endif
           con.parent = now_scope;
+          //cout << "PARENT:" << con.parent << " " << now_scope << endl;
           con.name = tname;
           con.mod = _none;
           con.type = _var;
           if(!newTypeContent(tname,con)) throw Error::AlreadyExist(tname);
           continue;
         }
+        con.parent = now_scope;
         con = eval(WordCollection(arg_list[i],2));
         con.parent = now_scope;
+        //cout << "PARENT:" << con.parent << " " << now_scope << endl;
         con.name = tname;
         con.mod = _none;
 
