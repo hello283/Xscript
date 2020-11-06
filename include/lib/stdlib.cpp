@@ -8,7 +8,7 @@ extern "C" ScriptResult test(vector<Type> list){
     return ScriptResult(__SUCCESS__);
 }
 
-extern "C" ScriptResult __max(vector<Type> list){
+extern "C" ScriptResult ___max(vector<Type> list){
     if(list.size() != 2){
         ScriptResult s(__SUCCESS__);
         s.Content.content[1]=0;
@@ -33,7 +33,7 @@ extern "C" ScriptResult __max(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __min(vector<Type> list){
+extern "C" ScriptResult ___min(vector<Type> list){
     if(list.size() != 2){
         ScriptResult s(__SUCCESS__);
         s.Content.content[1]=0;

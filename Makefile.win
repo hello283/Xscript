@@ -1,4 +1,5 @@
 CXXFLAGS=-std=c++11 -w -g -pipe -lstdc++
+CC:=gcc
 
 lib: include/lib
 	cd include/lib && make all

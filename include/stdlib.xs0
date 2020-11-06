@@ -1,8 +1,8 @@
-const stdhandle = dlopen("./include/lib/stdlib");
+const stdhandle = dlopen("./include/lib/stdlib.exe");
 const std=class(){
     var print=getdl(stdhandle,"print");
-    var max=getdl(stdhandle,"__max");
-    var min=getdl(stdhandle,"__min");
+    var max=getdl(stdhandle,"___max");
+    var min=getdl(stdhandle,"___min");
     var toCharCode=getdl(stdhandle,"toCharCode");
     var charToStr=getdl(stdhandle,"charToStr");
     var endl=charToStr(10);
