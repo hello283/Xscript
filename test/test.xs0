@@ -1,8 +1,10 @@
 import("./include/stdlib.xs0");
 var MAIN=class(){
-    var s="hello";
     var func=function(){
-        std.print(s);
+        var s=0;
+        var s1=float.set("114.514");
+        s=float.toInt(s1);
+        std.print(s1," ",s);
     };
 };
 MAIN.func();

@@ -1,12 +1,12 @@
-CC=g++	
+CXXFLAGS=-std=c++11 -w -g -pipe -ldl -lstdc++
 
 lib: include/lib
 	cd include/lib && make all
 
 IDLE: idle.cpp src/*
-	$(CC) ./idle.cpp	 -o idle	 -std=c++11 -w -pipe -O2 -ldl -g
+	$(CC) ./idle.cpp	 -o idle $(CXXFLAGS)
 Xscript: script.cpp src/*
-	$(CC) ./script.cpp	 -o script	 -std=c++11 -w -pipe -O2 -ldl -g
+	$(CC) ./script.cpp	 -o script $(CXXFLAGS)
 
 clean:
 	rm -rf main.exe idle.exe idle main

@@ -135,6 +135,7 @@ class ScriptResult{
 };
 
 // 判断Type指针是否安全，若否，则使其安全
+// 傻逼g++O2优化把这段程序优化成段错误了
 bool checkSafe(Type* target){
   for(map<string,Type>::iterator iter=target->node.begin();iter != target->node.end();iter++){
     checkSafe(&iter->second);

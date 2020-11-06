@@ -1,3 +1,4 @@
+#pragma once
 #include<cassert>
 #include<cctype>
 #include<cerrno>
@@ -68,3 +69,10 @@
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
+
+std::string FloatToStr(float num){
+    std::ostringstream oss;
+	oss << num;
+	std::string str(oss.str());
+	return str;
+}

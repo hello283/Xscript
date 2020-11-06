@@ -6,4 +6,15 @@ const std=class(){
     var toCharCode=getdl(stdhandle,"toCharCode");
     var charToStr=getdl(stdhandle,"charToStr");
     var endl=charToStr(10);
+    var eof=charToStr(0);
+};
+
+const float=class(){
+    var prototype_ = "__stdlib_float__";
+    var data="";
+    var max=getdl(stdhandle,"__stdf_max");
+    var min=getdl(stdhandle,"__stdf_min");
+    var set=getdl(stdhandle,"__stdf_set");
+    var toInt=getdl(stdhandle,"__stdf_toInt");
+    var toFloat=getdl(stdhandle,"__stdf_toFloat");
 };
