@@ -1,7 +1,7 @@
 import("./include/stdlib.xs0");
 var MAIN=class(){
     var func=function(){
-        std.print(float.set("114.514"));
+        ;
     };
 };
 MAIN.func();

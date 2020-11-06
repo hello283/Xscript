@@ -514,7 +514,6 @@ Type CallFunction(Type *func,vector<word> call_line){
   if((*func).vtype != _function){
     throw Error::TypeError((*func).name);
   }
-  //Type backscope = root_scope;
   call_line = WordCollection(call_line,getWordPos(call_line,chr,"(")+1,getWordPos(call_line,chr,")"));
   //cout << "Splited:" << WordSpliter(call_line,word(chr,",")).size() << endl;
   vector< vector<word> > carr = WordSpliter(call_line,word(chr,",")); //
@@ -525,8 +524,9 @@ Type CallFunction(Type *func,vector<word> call_line){
   }
   //cout << "run,here" << endl;
   // 更改作用域
+  Type func_local_scope(now_scope);
   Type* old_scope = now_scope;
-  now_scope = func;
+  now_scope = &func_local_scope;
   // 参数定义
   for(int i = 0;i < (*func).args.size();i++){
     Script((*func).args[i]);
@@ -546,15 +546,11 @@ Type CallFunction(Type *func,vector<word> call_line){
     ScriptResult (*fromDym) (vector<Type>) = (ScriptResult (*)(vector<Type>))func->fromDLL;
     ScriptResult s = (*fromDym)(tarr);
     now_scope = old_scope;
-    //root_scope = backscope;
     return s.Content;
   }
   ScriptResult s = Script((*func).content);
-  //cout << "Content： " << s.Content.content << endl;
   now_scope = old_scope;
-  //root_scope = backscope;
   return s.Content;
-  //return Type();
 }
 
 // 解释代码
@@ -656,10 +652,14 @@ ScriptResult Script(vector<word> wrd){
       scr = ScriptResult(__SUCCESS__);
       return scr;
     }else if(wrd[0].wd == "for"){
+      Type for_scope(now_scope);
+      Type* old=now_scope;
+      now_scope = &for_scope;
       vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
       vector< vector<word> > exp = WordSpliter(expr,word(chr,","));
       ScriptResult scr1_ = Script(exp[0]);
       if(scr1_.res != _finally){
+        now_scope=old;
         return scr1_;
       }
 
@@ -671,14 +671,19 @@ ScriptResult Script(vector<word> wrd){
         if(scr2_.res == _lopcontinue){
           continue;
         }else if(scr2_.res != _finally){
+          now_scope=old;
           return scr2_;
         }
-        if(ifr.res != _finally)  return ifr;
+        if(ifr.res != _finally){now_scope=old;return ifr;}
       }
+      now_scope=old;
       scr = ScriptResult(__SUCCESS__);
       return scr;
 
     }else if(wrd[0].wd == "while"){
+      Type while_scope(now_scope);
+      Type* old=now_scope;
+      now_scope = &while_scope;
       vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
       size_t sz = getWordPos(wrd,chr,")") + 1;
       Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
@@ -690,8 +695,9 @@ ScriptResult Script(vector<word> wrd){
         ScriptResult ifr = Script(wrd[sz].wd);
         //if(eval_res.content[0] != 1)  break;
         if(ifr.res == _lopcontinue)  continue;
-        if(ifr.res != _finally)  return ifr;
+        if(ifr.res != _finally){now_scope=old;return ifr;}
       }while(eval(expr).content[0] == 1);
+      now_scope=old;
       scr = ScriptResult(__SUCCESS__);
       return scr;
     }else if(wrd[0].wd == "show_info"){
