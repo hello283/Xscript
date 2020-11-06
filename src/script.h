@@ -652,8 +652,6 @@ ScriptResult Script(vector<word> wrd){
       }else if(wrd.size() > sz && wrd[sz+1].wd == "else"){
         ScriptResult ifr = Script(WordCollection(wrd,sz+2));
         if(ifr.res != _finally)  return ifr;
-      }else{
-        throw Error::SyntaxError("Invalid Syntax: Invalid If Definition");
       }
       scr = ScriptResult(__SUCCESS__);
       return scr;
@@ -670,10 +668,11 @@ ScriptResult Script(vector<word> wrd){
       while(eval(exp[1]).content[0] == 1){
         ScriptResult ifr = Script(wrd[sz].wd);
         ScriptResult scr2_ = Script(exp[2]);
-        if(scr2_.res != _finally){
+        if(scr2_.res == _lopcontinue){
+          continue;
+        }else if(scr2_.res != _finally){
           return scr2_;
         }
-        if(ifr.res == _lopcontinue)  continue;
         if(ifr.res != _finally)  return ifr;
       }
       scr = ScriptResult(__SUCCESS__);

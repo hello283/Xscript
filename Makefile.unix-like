@@ -1,15 +1,16 @@
 CXXFLAGS=-std=c++11 -w -g -pipe -ldl -lstdc++
 
-lib: include/lib
-	cd include/lib && make all
+lib: build/include/lib
+	cd build/include/lib && make all
 
 IDLE: idle.cpp src/*
-	$(CC) ./idle.cpp	 -o idle $(CXXFLAGS)
+	$(CC) ./idle.cpp	 -o build/idle $(CXXFLAGS)
 Xscript: script.cpp src/*
-	$(CC) ./script.cpp	 -o script $(CXXFLAGS)
+	$(CC) ./script.cpp	 -o build/script $(CXXFLAGS)
 
 clean:
 	rm -rf main.exe idle.exe idle main
+	rm -rf ./include/lib/stdlib ./include/lib/stdlib.exe 
 
 all: IDLE Xscript lib
 

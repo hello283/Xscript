@@ -1,5 +1,5 @@
-#include "../../src/stdc++.h"
-#include "../../src/script.h"
+#include "../../../src/stdc++.h"
+#include "../../../src/script.h"
 
 using namespace std;
 
