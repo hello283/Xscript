@@ -1,0 +1,25 @@
+CXXFLAGS=-std=c++11 -w -g -pipe -lstdc++ -static-libstdc++ -static-libgcc
+CC = x86_64-w64-mingw32-gcc
+
+lib: build/include/lib
+	cd build/include/lib && make -f Makefile.cross all
+
+IDLE: idle.cpp src/*
+	$(CC) ./idle.cpp	 -o build/idle $(CXXFLAGS)
+Xscript: script.cpp src/*
+	$(CC) ./script.cpp	 -o build/script $(CXXFLAGS)
+
+clean:
+	rm -rf build/main.exe build/idle.exe build/idle build/main
+	rm -rf ./build/include/lib/stdlib ./build/include/lib/stdlib.exe 
+
+all: IDLE Xscript lib
+
+debug:all
+	gdb ./script
+
+run: all
+	./idle
+	
+push: all
+	git push github && git push origin

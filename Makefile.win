@@ -1,4 +1,4 @@
-CXXFLAGS=-std=c++11 -w -g -pipe -lstdc++
+CXXFLAGS=-std=c++11 -w -g -pipe -lstdc++ -static-libgcc -static-libstdc++
 CC := gcc
 
 lib: build/include/lib
@@ -15,8 +15,12 @@ clean:
 
 all: IDLE Xscript lib
 
-debug:all
+debug: all
 	gdb ./script
+
+pack: all
+	tar -cvf ./build.tar ./build
+
 
 run: all
 	./idle
