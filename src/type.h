@@ -21,7 +21,7 @@ string itos(int r){
 }
 
 int stoi_(string s){
-  if(s.length() != 4)  cout << "[StringToInt:Warning] String Not Currently!" << s << endl;;
+  if(s.length() != 4)  cout << "[StringToInt:Warning] String Not Currently!" << s << endl;
   fbyte fb;
   for(int i = 0;i < 4;i++){
     fb.ch[i] = s[i];

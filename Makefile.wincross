@@ -1,4 +1,4 @@
-CXXFLAGS=-std=c++11 -w -g -pipe -lstdc++ -static-libstdc++ -static-libgcc
+CXXFLAGS=-std=c++11 -w -g -pipe -lstdc++ -static-libstdc++ -static-libgcc -O0
 CC = x86_64-w64-mingw32-gcc
 
 lib: build/include/lib

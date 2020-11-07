@@ -1,8 +1,8 @@
-CXXFLAGS=-std=c++11 -w -g -pipe -lstdc++ -static-libgcc -static-libstdc++
+CXXFLAGS=-std=c++11 -w -g -pipe -lstdc++ -O0 -static-libgcc -static-libstdc++
 CC := gcc
 
 lib: build/include/lib
-	cd build/include/lib && make all
+	cd build/include/lib && mingw32-make.exe all
 
 IDLE: idle.cpp src/*
 	$(CC) ./idle.cpp	 -o build/idle $(CXXFLAGS)
