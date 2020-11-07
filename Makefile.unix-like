@@ -9,8 +9,8 @@ Xscript: script.cpp src/*
 	$(CC) ./script.cpp	 -o build/script $(CXXFLAGS)
 
 clean:
-	rm -rf main.exe idle.exe idle main
-	rm -rf ./include/lib/stdlib ./include/lib/stdlib.exe 
+	rm -rf build/main.exe build/idle.exe build/idle build/main
+	rm -rf ./build/include/lib/stdlib ./build/include/lib/stdlib.exe 
 
 all: IDLE Xscript lib
 

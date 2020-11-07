@@ -1,7 +1,11 @@
 import("./include/stdlib.xs0");
 var MAIN=class(){
     var func=function(){
-        ;
+        var s=Array.init("233","114","514",float.set("114.51400"));
+        for(var i=0,Array.outsize(s,i),i=i+1){
+            std.print(Array.get(s,i));
+            std.print(std.endl);
+        };
     };
 };
 MAIN.func();

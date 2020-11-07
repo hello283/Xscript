@@ -17,3 +17,14 @@ const float=class(){
     var toInt=getdl(stdhandle,"__stdf_toInt");
     var toFloat=getdl(stdhandle,"__stdf_toFloat");
 };
+
+const array_handle = dlopen("./include/lib/array");
+const Array=class(){
+    var prototype_ = "__stdlib_array__";
+    var init=getdl(array_handle,"__init_array");
+    var get=getdl(array_handle,"__get_val");
+    var set=getdl(array_handle,"__set_val");
+    var push=getdl(array_handle,"__push_back");
+    var pop=getdl(array_handle,"__pop_back");
+    var outsize=getdl(array_handle,"__out_size");
+};
