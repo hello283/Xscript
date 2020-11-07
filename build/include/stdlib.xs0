@@ -1,4 +1,4 @@
-const stdhandle = dlopen("./include/lib/stdlib.exe");
+const stdhandle = dlopen("./include/lib/stdlib");
 const std=class(){
     var print=getdl(stdhandle,"print");
     var max=getdl(stdhandle,"___max");
@@ -23,7 +23,7 @@ const float=class(){
     var toFloat=getdl(stdhandle,"__stdf_toFloat");
 };
 
-const array_handle = dlopen("./include/lib/array.exe");
+const array_handle = dlopen("./include/lib/array");
 const Array=class(){
     var prototype_ = "__stdlib_array__";
     var init=getdl(array_handle,"__init_array");

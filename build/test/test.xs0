@@ -1,7 +1,6 @@
 import("./include/stdlib.xs0");
 var MAIN=class(){
     var func=function(var s1){
-        //std.print(s);
         var arr=Array.init();
         std.print("Array Size:");
         var s=std.strToInt(std.input());
