@@ -20,3 +20,5 @@ debug:all
 run: all
 	./idle
 	
+push: all
+	git push github && git push origin
