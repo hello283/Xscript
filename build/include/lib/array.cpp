@@ -64,8 +64,11 @@ extern "C" ScriptResult __push_back(vector<Type> list){
         return ScriptResult(__SUCCESS__);
     }else{
         int Index = 0;
-        for(;Index <= list[0].node[to_string(Index)].type != _not_exist;Index++){};
-        list[0].node[to_string(++Index)] = list[1];
+        for(;list[0].node.find(to_string(Index)) != list[0].node.end() ;Index++){};
+        //cout << list[0].node["1"].type << endl;
+        list[0].node[to_string(Index)] = list[1];
+        //cout << to_string(Index) << " " << list[0].node["1"].type << endl;
+        scrs.Content = list[0];
         scrs.res = _finally;
         return scrs;
     }
@@ -73,7 +76,7 @@ extern "C" ScriptResult __push_back(vector<Type> list){
 
 extern "C" ScriptResult __pop_back(vector<Type> list){
     ScriptResult scrs;
-    if(list.size() != 2){
+    if(list.size() != 1){
         printf("__pop_back: call format error!\n");
         return ScriptResult(__SUCCESS__);
     }else if(list[0].node["prototype_"].content != "__stdlib_array__"){
@@ -81,8 +84,9 @@ extern "C" ScriptResult __pop_back(vector<Type> list){
         return ScriptResult(__SUCCESS__);
     }else{
         int Index = 0;
-        for(;Index <= list[0].node[to_string(Index)].type != _not_exist;Index++){};
-        list[0].node[to_string(Index)].type = _not_exist;
+        for(;list[0].node.find(to_string(Index)) != list[0].node.end() ;Index++){};
+        list[0].node.erase(to_string(--Index));
+        scrs.Content = list[0];
         scrs.res = _finally;
         return scrs;
     }
