@@ -132,4 +132,17 @@ class Type{
           tyfind.path.pop();
           return node[name].setNode(tyfind,ToNew);
         }
+
+        bool isexist(TypeFinder tyfind){
+          if(tyfind.path.empty()){
+            // 丢弃掉原有的修饰符
+            if(node.find(tyfind.name) != node.end()){
+              return true;
+            }
+            return false;
+          }
+          string name = tyfind.path.top();
+          tyfind.path.pop();
+          return node[name].isexist(tyfind);
+        }
 };
