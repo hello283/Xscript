@@ -22,6 +22,7 @@ pack: all
 	tar -cvf ./build.tar ./build
 	
 push: pack
+	git commit -a -m "Auto pack"
 	git push github && git push origin
 run: all
 	./idle
