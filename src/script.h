@@ -169,6 +169,20 @@ Type getTypeContent(string name){
   
 }
 
+bool IsTypeExist(string name){
+  checkSafe(&root_scope);
+  TypeFinder tpf = getPath(name);
+  if(now_scope->parent->isexist(tpf)){
+    return true;
+  }else if(now_scope->isexist(tpf)){
+    return true;
+  }else if(root_scope.isexist(tpf)){
+    return true;
+  }else{
+    return false;
+  }
+}
+
 Type *getTypeAddr(string name){
   Type unk;
   if(name == ""){
@@ -196,6 +210,22 @@ bool setTypeContent(string name,Type write,bool inglobal = false){
   }
   if(inglobal)  return root_scope.setNode(tpf,write);
   return now_scope->setNode(tpf,write);
+}
+
+bool deleteType(string name){
+  checkSafe(&root_scope);
+  //checkSafe(now_scope);
+  TypeFinder tpf = getPath(name);
+  if(root_scope.isexist(tpf)){
+    return now_scope->deletes(tpf);
+  }
+  else if(now_scope->parent->isexist(tpf)){
+    return now_scope->parent->deletes(tpf);
+  }else if(root_scope.isexist(tpf)){
+    return root_scope.deletes(tpf);
+  }else{
+    return false;
+  }
 }
 
 bool newTypeContent(string name,Type write,bool inglobal = false){
@@ -786,10 +816,9 @@ ScriptResult Script(vector<word> wrd){
       //cout << wrd.size() << endl;
       #endif
       if(getTypeContent(wrd[1].wd).type == _not_exist){
-		  cout << "Var not exist!" << endl;
-		  exit(1);
+		    throw Error::SyntaxError("Var not exist!\n");
 	    }else{
-  		  setTypeContent(wrd[1].wd,Type());
+  		  deleteType(wrd[1].wd);
 		    return ScriptResult(__SUCCESS__);
 	    }
     }else if(wrd[0].wd == "function"){

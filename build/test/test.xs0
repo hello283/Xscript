@@ -1,7 +1,9 @@
 import("./include/stdlib.xs0");
 var MAIN=class(){
     var func=function(var s1){
-        std.print(compiler_version);
+        std.print(compiler_version,s1);
+        delete s1;
+        std.print(s1);
     };
 };
 MAIN.func(10);
