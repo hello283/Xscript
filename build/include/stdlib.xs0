@@ -5,6 +5,11 @@ const std=class(){
     var min=getdl(stdhandle,"___min");
     var toCharCode=getdl(stdhandle,"toCharCode");
     var charToStr=getdl(stdhandle,"charToStr");
+    var strToInt=getdl(stdhandle,"strToInt");
+    var input=getdl(stdhandle,"input");
+    var toNegative=function(var s){
+        return 0-s;
+    };
     var endl=charToStr(10);
     var eof=charToStr(0);
 };

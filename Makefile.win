@@ -20,8 +20,9 @@ debug: all
 
 pack: all
 	tar -cvf ./build.tar ./build
-
-
+	
+push: pack
+	git push github && git push origin
 run: all
 	./idle
 	

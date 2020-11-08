@@ -240,3 +240,28 @@ extern "C" ScriptResult print(vector<Type> list){
     }
     return ScriptResult(__SUCCESS__);
 }
+
+extern "C" ScriptResult strToInt(vector<Type> list){
+    if(list.size() != 1){
+        printf("strToInt: must have one arg!");
+        return ScriptResult(__SUCCESS__);
+    }else if(list[0].vtype != _str){
+        printf("strToInt: must be string!");
+    }else{
+        ScriptResult scrs;
+        scrs.Content.vtype = _int;
+        scrs.Content.type = _var;
+        scrs.Content.content = itos(atoi(list[0].content.data()));
+        scrs.res = _finally;
+        return scrs;
+    }
+}
+
+extern "C" ScriptResult input(vector<Type> list){
+    ScriptResult scrs;
+    scrs.Content.type = _var;
+    scrs.Content.vtype = _str;
+    scrs.res = _finally;
+    getline(cin,scrs.Content.content);
+    return scrs;
+}
