@@ -10,7 +10,7 @@ using namespace std;
 string pkgname = "";
 
 string CoreVersion(){
-  return "release1_0";
+  return "release1.1";
 }
 
 enum hantype{

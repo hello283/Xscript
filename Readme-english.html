@@ -276,16 +276,96 @@ pre[data-line] .line-highlight[data-end]:after {
 <h3 class="mume-header" id="bugs">Bugs:</h3>
 
 <blockquote>
-<p>function doesn&apos;t have callstack<br><br>
-for statement won&apos;t remove used variables<br></p>
+<p>function doesn&apos;t have callstack<br></p>
 </blockquote>
 <h3 class="mume-header" id="todo">Todo:</h3>
 
 <blockquote>
-<p>perfect the stdlib: Add substr function&#xFF0C;pointer&#xFF0C;finish the array.<br><br>
+<p>perfect the stdlib: Add substr function<br><br>
 <strong>fix bugs!!!!!!!!</strong><bt></bt></p>
 </blockquote>
-<h2 class="mume-header" id="finish-features">Finish features</h2>
+<h3 class="mume-header" id="directory-struct">Directory Struct:</h3>
+
+<pre data-role="codeBlock" data-info="bash" class="language-bash">&#x251C;&#x2500;&#x2500; build
+&#x2502;   &#x251C;&#x2500;&#x2500; idle
+&#x2502;   &#x251C;&#x2500;&#x2500; idle.dSYM
+&#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; Contents
+&#x2502;   &#x2502;       &#x251C;&#x2500;&#x2500; Info.plist
+&#x2502;   &#x2502;       &#x2514;&#x2500;&#x2500; Resources
+&#x2502;   &#x2502;           &#x2514;&#x2500;&#x2500; DWARF
+&#x2502;   &#x2502;               &#x2514;&#x2500;&#x2500; idle
+&#x2502;   &#x251C;&#x2500;&#x2500; idle.exe
+&#x2502;   &#x251C;&#x2500;&#x2500; include
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; lib
+&#x2502;   &#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; array
+&#x2502;   &#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; array.cpp
+&#x2502;   &#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; array.exe
+&#x2502;   &#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; Makefile
+&#x2502;   &#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; Makefile.cross
+&#x2502;   &#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; stdlib
+&#x2502;   &#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; stdlib.cpp
+&#x2502;   &#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; stdlib.exe
+&#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; stdlib.xs0
+&#x2502;   &#x251C;&#x2500;&#x2500; script
+&#x2502;   &#x251C;&#x2500;&#x2500; script.dSYM
+&#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; Contents
+&#x2502;   &#x2502;       &#x251C;&#x2500;&#x2500; Info.plist
+&#x2502;   &#x2502;       &#x2514;&#x2500;&#x2500; Resources
+&#x2502;   &#x2502;           &#x2514;&#x2500;&#x2500; DWARF
+&#x2502;   &#x2502;               &#x2514;&#x2500;&#x2500; script
+&#x2502;   &#x251C;&#x2500;&#x2500; script.exe
+&#x2502;   &#x2514;&#x2500;&#x2500; <span class="token function">test</span>
+&#x2502;       &#x251C;&#x2500;&#x2500; a
+&#x2502;       &#x251C;&#x2500;&#x2500; a.cpp
+&#x2502;       &#x2514;&#x2500;&#x2500; test.xs0
+&#x251C;&#x2500;&#x2500; build.tar
+&#x251C;&#x2500;&#x2500; directory.txt
+&#x251C;&#x2500;&#x2500; idle.cpp
+&#x251C;&#x2500;&#x2500; idle.dSYM
+&#x2502;   &#x2514;&#x2500;&#x2500; Contents
+&#x2502;       &#x251C;&#x2500;&#x2500; Info.plist
+&#x2502;       &#x2514;&#x2500;&#x2500; Resources
+&#x2502;           &#x2514;&#x2500;&#x2500; DWARF
+&#x2502;               &#x2514;&#x2500;&#x2500; idle
+&#x251C;&#x2500;&#x2500; main.dSYM
+&#x2502;   &#x2514;&#x2500;&#x2500; Contents
+&#x2502;       &#x251C;&#x2500;&#x2500; Info.plist
+&#x2502;       &#x2514;&#x2500;&#x2500; Resources
+&#x2502;           &#x2514;&#x2500;&#x2500; DWARF
+&#x2502;               &#x2514;&#x2500;&#x2500; main
+&#x251C;&#x2500;&#x2500; make_all.sh
+&#x251C;&#x2500;&#x2500; Makefile.unix-like
+&#x251C;&#x2500;&#x2500; Makefile.win
+&#x251C;&#x2500;&#x2500; Makefile.wincross
+&#x251C;&#x2500;&#x2500; Readme-english.html
+&#x251C;&#x2500;&#x2500; Readme-english.md
+&#x251C;&#x2500;&#x2500; Readme_files
+&#x2502;   &#x2514;&#x2500;&#x2500; katex.min.css
+&#x251C;&#x2500;&#x2500; Readme.html
+&#x251C;&#x2500;&#x2500; Readme.md
+&#x251C;&#x2500;&#x2500; sample
+&#x2502;   &#x251C;&#x2500;&#x2500; first.xs0
+&#x2502;   &#x2514;&#x2500;&#x2500; testfile.idle
+&#x251C;&#x2500;&#x2500; script.cpp
+&#x251C;&#x2500;&#x2500; script.dSYM
+&#x2502;   &#x2514;&#x2500;&#x2500; Contents
+&#x2502;       &#x251C;&#x2500;&#x2500; Info.plist
+&#x2502;       &#x2514;&#x2500;&#x2500; Resources
+&#x2502;           &#x2514;&#x2500;&#x2500; DWARF
+&#x2502;               &#x2514;&#x2500;&#x2500; script
+&#x2514;&#x2500;&#x2500; src
+    &#x251C;&#x2500;&#x2500; const.h
+    &#x251C;&#x2500;&#x2500; dlfcn.h
+    &#x251C;&#x2500;&#x2500; env.h
+    &#x251C;&#x2500;&#x2500; error.h
+    &#x251C;&#x2500;&#x2500; script.h
+    &#x251C;&#x2500;&#x2500; stdc++.h
+    &#x251C;&#x2500;&#x2500; type.h
+    &#x2514;&#x2500;&#x2500; words.h
+
+27 directories, 49 files
+
+</pre><h2 class="mume-header" id="finish-features">Finish features</h2>
 
 <ul>
 <li>class</li>
@@ -294,6 +374,7 @@ for statement won&apos;t remove used variables<br></p>
 <li>while</li>
 <li>var</li>
 <li>const</li>
+<li>Array</li>
 </ul>
 <h2 class="mume-header" id="please-attention">PLEASE ATTENTION</h2>
 

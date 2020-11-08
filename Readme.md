@@ -8,11 +8,94 @@
 如果你想为Xscript作出贡献，您可以修复以下Bug,或增加新功能.
 ### Bugs:
 > 函数没有callstack<br>
-> for产生的变量不会收回<br>
 
 ### Todo:
-> 完善stdlib: 增加substr函数，加入指针，完成数组<br>
+> 完善stdlib: 增加substr函数<br>
 > **修复bug!!!!!!!!**<bt>
+
+### 目录结构:
+```bash
+
+├── build
+│   ├── idle
+│   ├── idle.dSYM
+│   │   └── Contents
+│   │       ├── Info.plist
+│   │       └── Resources
+│   │           └── DWARF
+│   │               └── idle
+│   ├── idle.exe
+│   ├── include
+│   │   ├── lib
+│   │   │   ├── array
+│   │   │   ├── array.cpp
+│   │   │   ├── array.exe
+│   │   │   ├── Makefile
+│   │   │   ├── Makefile.cross
+│   │   │   ├── stdlib
+│   │   │   ├── stdlib.cpp
+│   │   │   └── stdlib.exe
+│   │   └── stdlib.xs0
+│   ├── script
+│   ├── script.dSYM
+│   │   └── Contents
+│   │       ├── Info.plist
+│   │       └── Resources
+│   │           └── DWARF
+│   │               └── script
+│   ├── script.exe
+│   └── test
+│       ├── a
+│       ├── a.cpp
+│       └── test.xs0
+├── build.tar
+├── directory.txt
+├── idle.cpp
+├── idle.dSYM
+│   └── Contents
+│       ├── Info.plist
+│       └── Resources
+│           └── DWARF
+│               └── idle
+├── main.dSYM
+│   └── Contents
+│       ├── Info.plist
+│       └── Resources
+│           └── DWARF
+│               └── main
+├── make_all.sh
+├── Makefile.unix-like
+├── Makefile.win
+├── Makefile.wincross
+├── Readme-english.html
+├── Readme-english.md
+├── Readme_files
+│   └── katex.min.css
+├── Readme.html
+├── Readme.md
+├── sample
+│   ├── first.xs0
+│   └── testfile.idle
+├── script.cpp
+├── script.dSYM
+│   └── Contents
+│       ├── Info.plist
+│       └── Resources
+│           └── DWARF
+│               └── script
+└── src
+    ├── const.h
+    ├── dlfcn.h
+    ├── env.h
+    ├── error.h
+    ├── script.h
+    ├── stdc++.h
+    ├── type.h
+    └── words.h
+
+27 directories, 49 files
+
+```
 
 ## 已实现功能
 - class
@@ -21,6 +104,7 @@
 - while
 - var
 - const
+- Array
 
 ## 注意
 
