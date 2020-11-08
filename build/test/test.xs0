@@ -1,18 +1,7 @@
 import("./include/stdlib.xs0");
 var MAIN=class(){
     var func=function(var s1){
-        var arr=Array.init();
-        std.print("Array Size:");
-        var s=std.strToInt(std.input());
-        for(var i=0,i<=s,i=i+1){
-            std.print(i," ",s,":");
-            var in=std.input();
-            arr=Array.push(arr,in);
-            delete in;
-        };
-        for(var i=0,Array.outsize(arr,i),i=i+1){
-            std.print(Array.get(arr,i)," ");
-        };
+        std.print(compiler_version);
     };
 };
 MAIN.func(10);

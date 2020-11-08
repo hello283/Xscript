@@ -1,4 +1,17 @@
-const stdhandle = dlopen("./include/lib/stdlib");
+var stdlocation="";
+if(os=="linux"){
+    stdlocation = "./include/lib/stdlib";
+}else if(os=="macOS"){
+    stdlocation = "./include/lib/stdlib";
+}else if(os=="WIN32"){
+    stdlocation = "./include/lib/stdlib.exe";
+}else if(os=="WIN64"){
+    stdlocation = "./include/lib/stdlib.exe";
+}else{
+    stdlocation = "./include/lib/stdlib";
+};
+
+const stdhandle = dlopen(stdlocation);
 const std=class(){
     var print=getdl(stdhandle,"print");
     var max=getdl(stdhandle,"___max");
@@ -23,7 +36,20 @@ const float=class(){
     var toFloat=getdl(stdhandle,"__stdf_toFloat");
 };
 
-const array_handle = dlopen("./include/lib/array");
+var arrlocation="";
+if(os=="linux"){
+    arrlocation = "./include/lib/array";
+}else if(os=="macOS"){
+    arrlocation = "./include/lib/array";
+}else if(os=="WIN32"){
+    arrlocation = "./include/lib/array.exe";
+}else if(os=="WIN64"){
+    arrlocation = "./include/lib/array.exe";
+}else{
+    arrlocation = "./include/lib/array";
+};
+
+const array_handle = dlopen(arrlocation);
 const Array=class(){
     var prototype_ = "__stdlib_array__";
     var init=getdl(array_handle,"__init_array");
