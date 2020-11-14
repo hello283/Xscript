@@ -1,0 +1,71 @@
+#include "../src/env.h"
+
+map<string,string> bottle_args;
+string help_doc[] = {
+    "Xbottle Help Doc:\n",
+    "===================================\n",
+    "action:\n",
+    "---- create ... Create a new bottle\n",
+    "---- run    ... Run Bottle         \n",
+    "---- man    ... manage a bottle    \n",
+    "===================================\n",
+    "If you have any questions,please send an email to developer: 3134714226@qq.com or zhouyongkang4321@gmail.com\n",
+};
+
+void show_help(){
+    for(int i = 0;i < 8;i++){
+        cout << help_doc[i];
+    }
+    return;
+}
+
+int main(int argc,const char ** argv){
+    cout << "Xscript bottle runner\nPowered by Xiaokang00010\n" << endl;
+
+    // Args Parser
+    for (size_t i = 1; i < argc; i++)
+    {
+        if(i==1){
+            bottle_args["action"] = argv[1];
+        }else{
+            cout << argv[i] << " " << argv[i+1] << endl;
+            bottle_args[argv[i]] = argv[i+1];
+            i++;continue;
+        }
+    }
+
+    if(bottle_args["action"] == ""){
+        cout << "Invalid Arg!\n";
+        show_help();
+    }else if(bottle_args["action"] == "create"){
+        cout << "Create a new bottle...\n";
+        if(bottle_args["output"] == ""){
+            cout << "No Output!\n";
+            show_help();
+        }else if(bottle_args["from-github"] == "false" || bottle_args["from-github"] == "0"){
+            cout << "Cloning Repo from another repository\n";
+            if(bottle_args["with-stdlib"] == "" || bottle_args["with-stdlib"] == "false" || bottle_args["with-stdlib"] == "0"){
+                cout << "Type: No stdlib\n";
+                system((Text::ToString("git clone -b no-stdlib ") + bottle_args["repo-url"]).data());
+                rename("xbottle-repo",bottle_args["output"].data());
+            }else{
+                cout << "Type: With stdlib\n";
+                cout << "Type: No stdlib\n";
+                system((Text::ToString("git clone -b with-stdlib ") + bottle_args["repo-url"]).data());
+                rename("xbottle-repo",bottle_args["output"].data());
+            }
+        }else{
+            cout << "Cloning Repo from github\n";
+            if(bottle_args["with-stdlib"] == "" || bottle_args["with-stdlib"] == "false" || bottle_args["with-stdlib"] == "0"){
+                cout << "Type: No stdlib\n";
+                system("git clone -b no-stdlib https://github.com/xiaokang00010/xbottle-repo/");
+                rename("xbottle-repo",bottle_args["output"].data());
+            }else{
+                cout << "Type: With stdlib\n";
+                cout << "Type: No stdlib\n";
+                system("git clone -b with-stdlib https://github.com/xiaokang00010/xbottle-repo/");
+                rename("xbottle-repo",bottle_args["output"].data());
+            } 
+        }
+    }
+}
