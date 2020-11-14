@@ -1,7 +1,8 @@
-import("./include/stdlib.xs0");
+import("."+"/include/stdlib.xs0");
 var MAIN=class(){
     var func=function(var s1){
-        std.print(compiler_version,s1);
+	var s="hello";
+        std.print(""+"World!",s1);
         delete s1;
         std.print(s1);
     };

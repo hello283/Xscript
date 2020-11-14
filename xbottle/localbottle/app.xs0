@@ -1,0 +1,7 @@
+import(__CONST_APP_PREFIX+"/inclist.xs0");
+var app=class(){
+    var main=function(){
+        std.print("Hello,World!",std.endl);
+        return 0;
+    };
+};

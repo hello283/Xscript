@@ -1,0 +1,61 @@
+var stdlocation="";
+if(os=="linux"){
+    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/stdlib";
+}else if(os=="macOS"){
+    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/stdlib";
+}else if(os=="WIN32"){
+    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/stdlib.exe";
+}else if(os=="WIN64"){
+    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/stdlib.exe";
+}else{
+    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/stdlib";
+};
+
+const stdhandle = dlopen(stdlocation);
+const std=class(){
+    var print=getdl(stdhandle,"print");
+    var max=getdl(stdhandle,"___max");
+    var min=getdl(stdhandle,"___min");
+    var toCharCode=getdl(stdhandle,"toCharCode");
+    var charToStr=getdl(stdhandle,"charToStr");
+    var strToInt=getdl(stdhandle,"strToInt");
+    var input=getdl(stdhandle,"input");
+    var toNegative=function(var s){
+        return 0-s;
+    };
+    var endl=charToStr(10);
+    var eof=charToStr(0);
+};
+
+const float=class(){
+    var prototype_ = "__stdlib_float__";
+    var max=getdl(stdhandle,"__stdf_max");
+    var min=getdl(stdhandle,"__stdf_min");
+    var set=getdl(stdhandle,"__stdf_set");
+    var toInt=getdl(stdhandle,"__stdf_toInt");
+    var toFloat=getdl(stdhandle,"__stdf_toFloat");
+};
+
+var arrlocation="";
+if(os=="linux"){
+    arrlocation = __CONST_APP_INCLUDE_DIR+"/lib/array";
+}else if(os=="macOS"){
+    arrlocation = __CONST_APP_INCLUDE_DIR+"/lib/array";
+}else if(os=="WIN32"){
+    arrlocation = __CONST_APP_INCLUDE_DIR+"/lib/array.exe";
+}else if(os=="WIN64"){
+    arrlocation = __CONST_APP_INCLUDE_DIR+"/lib/array.exe";
+}else{
+    arrlocation = __CONST_APP_INCLUDE_DIR+"/lib/array";
+};
+
+const array_handle = dlopen(arrlocation);
+const Array=class(){
+    var prototype_ = "__stdlib_array__";
+    var init=getdl(array_handle,"__init_array");
+    var get=getdl(array_handle,"__get_val");
+    var set=getdl(array_handle,"__set_val");
+    var push=getdl(array_handle,"__push_back");
+    var pop=getdl(array_handle,"__pop_back");
+    var outsize=getdl(array_handle,"__out_size");
+};

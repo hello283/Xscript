@@ -1,0 +1,9 @@
+CC = x86_64-w64-mingw32-g++ -shared -std=c++11 -fPIC -w
+
+array: array.cpp ../../../src/*.h
+	$(CC) array.cpp -o array
+
+stdlib: stdlib.cpp ../../../src/*.h
+	$(CC) stdlib.cpp -o stdlib
+
+all: stdlib array

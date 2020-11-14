@@ -1,0 +1,4 @@
+main-class-name=app
+main-script=app.xs0
+include-path=include
+git-default-commit-message=HELLO,WORLD

@@ -291,7 +291,7 @@ string Format(string s){
     if(s[i] == '"' && !descript)  str=!str;
     if(s[i-1] == '*' && s[i] == '/' && !str){
 			if(descript){descript=false;continue;}
-			else throw Error::SyntaxError("InvalidSyntax");
+			//else throw Error::SyntaxError("InvalidSyntax");
 		}else if(s[i] == '\n' && !str){
 			if(descript){descript=false;}
 		}
@@ -512,11 +512,11 @@ Type eval(ExprTree expr){
       left.content = itos(stoi_(left.content)+stoi_(right.content));
       return left;
     }else if(left.vtype == _str && right.vtype == _str){
-      left.content = left.content + right.content;
-      return left;
+      right.content = left.content + right.content;
+      return right;
     }else if(left.vtype == _str && right.vtype == _int){
-      left.content = left.content + (char)(stoi_(right.content));
-      return left;
+      right.content = left.content + (char)(stoi_(right.content));
+      return right;
     }else{
       //return left;
       throw Error::SyntaxError("TypeError: Unknown Operation for this type!");
@@ -614,6 +614,11 @@ ScriptResult Script(vector<word> wrd){
 		    scs.res = _finally;
 		    //cout << "!" << endl;
 		    return scs;
+      }else{
+        ScriptResult scs;
+        scs.Content=eval(wrd);
+        scs.res = _finally;
+        return scs;
       }
     }
   }

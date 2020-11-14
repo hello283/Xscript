@@ -1,4 +1,5 @@
-#include "../src/env.h"
+//#include "../src/env.h"
+#include "./xconfig.h"
 
 map<string,string> bottle_args;
 string help_doc[] = {
@@ -39,7 +40,7 @@ int main(int argc,const char ** argv){
         show_help();
     }else if(bottle_args["action"] == "create"){
         cout << "Create a new bottle...\n";
-        if(bottle_args["output"] == ""){
+        if(bottle_args["name"] == ""){
             cout << "No Output!\n";
             show_help();
         }else if(bottle_args["from-github"] == "false" || bottle_args["from-github"] == "0"){
@@ -66,6 +67,30 @@ int main(int argc,const char ** argv){
                 system("git clone -b with-stdlib https://github.com/xiaokang00010/xbottle-repo/");
                 rename("xbottle-repo",bottle_args["output"].data());
             } 
+        }
+    }else if(bottle_args["action"] == "run"){
+        if(bottle_args["path"] == ""){
+            cout << "Please Select An Bottle!\n";
+            show_help();
+        }else{
+            Xconfig bottle_config;
+            try{
+                bottle_config = Xconfig(bottle_args["path"]+"/bottles-settings.list");
+            }catch(EasyFiles::FileError::CanNotOpenFile e){
+                cout << "Can Not Open File!\n";
+                exit(-1);
+            };
+            try{
+                now_scope = &root_scope;
+                init_env(&root_scope);
+                Script(Text::ToString("var __CONST_APP_INCLUDE_DIR=") + '"' + bottle_args["path"] + "/" + bottle_config.key_["include-path"] + '"');
+                Script(Text::ToString("var __CONST_APP_PREFIX=") + '"' + bottle_args["path"] + '"');
+                Script(EasyFiles::ReadFile(bottle_args["path"]+"/"+bottle_config.key_["main-script"]));
+                Script(bottle_config.key_["main-class-name"] + ".main(" + '"' + bottle_args["callline"] + '"' + ")");
+            }catch(Error::SyntaxError e){
+                e.what();
+                exit(-1);
+            };
         }
     }
 }
