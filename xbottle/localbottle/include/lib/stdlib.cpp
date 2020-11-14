@@ -1,5 +1,5 @@
-#include "../../../src/stdc++.h"
-#include "../../../src/script.h"
+#include "../../../../src/stdc++.h"
+#include "../../../../src/script.h"
 
 using namespace std;
 
@@ -10,7 +10,7 @@ extern "C" ScriptResult test(vector<Type> list){
 
 extern "C" ScriptResult ___max(vector<Type> list){
     if(list.size() != 2){
-        ScriptResult s(__SUCCESS__);
+        ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
         return s;
     }else{
@@ -35,7 +35,7 @@ extern "C" ScriptResult ___max(vector<Type> list){
 
 extern "C" ScriptResult ___min(vector<Type> list){
     if(list.size() != 2){
-        ScriptResult s(__SUCCESS__);
+        ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
         return s;
     }else{
@@ -60,7 +60,7 @@ extern "C" ScriptResult ___min(vector<Type> list){
 
 extern "C" ScriptResult toCharCode(vector<Type> list){
     if(list.size() != 1){
-        ScriptResult s(__SUCCESS__);
+        ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
         return s;
     }else{
@@ -75,7 +75,7 @@ extern "C" ScriptResult toCharCode(vector<Type> list){
 
 extern "C" ScriptResult charToStr(vector<Type> list){
     if(list.size() != 1){
-        ScriptResult s(__SUCCESS__);
+        ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
         return s;
     }else{
@@ -90,7 +90,7 @@ extern "C" ScriptResult charToStr(vector<Type> list){
 
 extern "C" ScriptResult __stdf_max(vector<Type> list){
     if(list.size() != 2){
-        ScriptResult s(__SUCCESS__);
+        ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
         return s;
     }else{
@@ -99,7 +99,7 @@ extern "C" ScriptResult __stdf_max(vector<Type> list){
         Type y;
         if(x.node["prototype_"].content != "__stdlib_float__"){
             cout << "__stdf_max: left arg must be float!\n";
-            ScriptResult s(__SUCCESS__);
+            ScriptResult s(__FAILED__);
             s.Content.content[1]=0;
             return s;
         }
@@ -121,7 +121,7 @@ extern "C" ScriptResult __stdf_max(vector<Type> list){
 
 extern "C" ScriptResult __stdf_min(vector<Type> list){
     if(list.size() != 2){
-        ScriptResult s(__SUCCESS__);
+        ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
         return s;
     }else{
@@ -130,7 +130,7 @@ extern "C" ScriptResult __stdf_min(vector<Type> list){
         Type y;
         if(x.node["prototype_"].content != "__stdlib_float__"){
             cout << "__stdf_max: left arg must be float!\n";
-            ScriptResult s(__SUCCESS__);
+            ScriptResult s(__FAILED__);
             s.Content.content[1]=0;
             return s;
         }
@@ -152,12 +152,12 @@ extern "C" ScriptResult __stdf_min(vector<Type> list){
 
 extern "C" ScriptResult __stdf_toInt(vector<Type> list){
     if(list.size() != 1){
-        ScriptResult s(__SUCCESS__);
+        ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
         return s;
     }else if(list[0].node["prototype_"].content != "__stdlib_float__"){
         cout << "__stdf_max: arg must be float!\n";
-        ScriptResult s(__SUCCESS__);
+        ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
         return s;
     }else{
@@ -174,12 +174,12 @@ extern "C" ScriptResult __stdf_toInt(vector<Type> list){
 
 extern "C" ScriptResult __stdf_toFloat(vector<Type> list){
     if(list.size() != 1){
-        ScriptResult s(__SUCCESS__);
+        ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
         return s;
     }else if(list[0].vtype != _int){
         cout << "__stdf_max: arg must be int!\n";
-        ScriptResult s(__SUCCESS__);
+        ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
         return s;
     }else{
@@ -220,7 +220,7 @@ extern "C" ScriptResult __stdf_set(vector<Type> list){
         return s;
     }else{
         cout << "__stdf_set: Unknown Covert!\n";
-        ScriptResult s(__SUCCESS__);
+        ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
         return s;
     }
@@ -244,7 +244,7 @@ extern "C" ScriptResult print(vector<Type> list){
 extern "C" ScriptResult strToInt(vector<Type> list){
     if(list.size() != 1){
         printf("strToInt: must have one arg!");
-        return ScriptResult(__SUCCESS__);
+        return ScriptResult(__FAILED__);
     }else if(list[0].vtype != _str){
         printf("strToInt: must be string!");
     }else{
@@ -254,6 +254,30 @@ extern "C" ScriptResult strToInt(vector<Type> list){
         scrs.Content.content = itos(atoi(list[0].content.data()));
         scrs.res = _finally;
         return scrs;
+    }
+}
+
+extern "C" ScriptResult __ReadFile(vector<Type> list){
+    if(list.size() == 1 && list[0].type != _not_exist && list[0].vtype == _str){
+        ScriptResult scrs;
+        scrs.Content.type = _var;
+        scrs.Content.vtype = _str;
+        scrs.Content.content = EasyFiles::ReadFile(list[0].content);
+        scrs.res = _finally;
+        return scrs;
+    }else{
+        cout << "ReadFile: Invalid Call Format.\n";
+        return ScriptResult(__FAILED__);
+    }
+}
+
+extern "C" ScriptResult __WriteFile(vector<Type> list){
+    if(list.size() == 2 && list[0].type != _not_exist && list[1].vtype == _str && list[1].type != _not_exist && list[1].vtype == _str){
+        EasyFiles::WriteFile(list[0].content,list[1].content);
+        return ScriptResult(__SUCCESS__);
+    }else{
+        cout << "ReadFile: Invalid Call Format.\n";
+        return ScriptResult(__FAILED__);
     }
 }
 

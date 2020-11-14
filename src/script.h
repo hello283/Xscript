@@ -116,7 +116,8 @@ enum resultT{
 };
 
 enum Script_{
-	__SUCCESS__=1
+	__SUCCESS__=1,
+  __FAILED__=2
 };
 
 class ScriptResult{
@@ -130,7 +131,12 @@ class ScriptResult{
 		 Content.type = _var;
      Content.vtype = _bol;
 		 res = _finally;
-	 }
+	 }else{
+     Content.content+=(char)0;
+		 Content.type = _var;
+     Content.vtype = _bol;
+		 res = _finally;
+   }
   }
 };
 
@@ -738,10 +744,14 @@ ScriptResult Script(vector<word> wrd){
       now_scope = oldscope;
       scr = ScriptResult(__SUCCESS__);
       return scr;
-    }else if(wrd[0].wd == "show_info"){
-      // Show Var Info
-      scr = ScriptResult(__SUCCESS__);
-      return scr;
+    }else if(wrd[0].wd == "execute"){
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
+      Type s = eval(expr);
+      if(s.type == _not_exist || s.vtype != _str){
+        return ScriptResult(__SUCCESS__);
+      }else{
+        return Script(s.content);
+      }
     }else if(wrd[0].wd == "dlopen"){
       // Open Dymaic Library
       vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));

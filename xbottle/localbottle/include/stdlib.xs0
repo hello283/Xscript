@@ -20,6 +20,8 @@ const std=class(){
     var charToStr=getdl(stdhandle,"charToStr");
     var strToInt=getdl(stdhandle,"strToInt");
     var input=getdl(stdhandle,"input");
+    var WriteFile=getdl(stdhandle,"__WriteFile");
+    var ReadFile=getdl(stdhandle,"__ReadFile");
     var toNegative=function(var s){
         return 0-s;
     };
