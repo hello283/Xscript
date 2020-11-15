@@ -293,6 +293,7 @@ string Format(string s){
   bool blank_in_start = true,str = false,descript=false;
   for(int i = 0;i < s.length();i++){
     // String
+    if(s[i] == 13)  continue;
     if(s[i] == '"' && !descript)  str=!str;
     if(s[i-1] == '*' && s[i] == '/' && !str){
 			if(descript){descript=false;continue;}
