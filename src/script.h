@@ -70,24 +70,23 @@ namespace EasyFiles{
 	};
 	string ReadFile(string FileName){
 		string ret;
-		string temp;
-		fstream f2;
-    	f2.open(FileName.data(),ios::in);
-		if(!f2.is_open())throw FileError::CanNotOpenFile();
-		while(!f2.eof()){
-			//f2 >> ret;
-			getline(f2,temp);
-			ret+=temp+"\n";//加换行
-		}
-		ret.erase(ret.length()-1,1);
-		f2.close();
-		return ret;
+		FILE* fd = fopen(FileName.data(),"r+");
+    if(fd == NULL){
+      cout << "Failed!:" << FileName << endl;
+      throw EasyFiles::FileError::CanNotOpenFile();
+    }else{
+      for (char byte = 0; (byte = fgetc(fd)) != EOF ; ret += byte);
+      return ret;
+    }
 	}
 
 	string WriteFile(string FileName,string Output){
 		fstream f1;
-    	f1.open(FileName.data(),ios::out|ios::trunc|ios_base::out);
-		if(!f1.is_open())throw FileError::CanNotOpenFile();
+  	f1.open(FileName.data(),ios::out|ios::trunc|ios_base::out);
+		if(!f1.is_open()){
+      cout << "Failed:" << FileName << endl;
+      throw FileError::CanNotOpenFile();
+    }
 		f1 << Output;
 		f1.close();
 		return Output;
