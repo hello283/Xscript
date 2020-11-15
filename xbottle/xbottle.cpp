@@ -120,7 +120,7 @@ int main(int argc,const char ** argv){
                 }else if(scr.Content.vtype == _str){
                     cout << scr.Content.content << endl;
                 }else if(scr.Content.vtype == _bol){
-                    Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
+                    Type iftrue(now_scope);iftrue.type = _var; iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
                     //Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
                     cout << (int)scr.Content.content[0] << endl;
                 }else{
