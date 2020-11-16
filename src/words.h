@@ -164,9 +164,13 @@ vector<word> WordParser(string code){
 		if(!(code[i] >= 48 && code[i] <= 57)){
 			if(num){
 				num = false;
-				tmpwrd.word_type = con;
-				result.push_back(tmpwrd);
-				tmpwrd.clear();
+				if((code[i] <= 'A' && code[i] >= 'Z') || code[i] == '_'){
+					tmpwrd.word_type = nam;
+				}else{
+					tmpwrd.word_type = con;
+					result.push_back(tmpwrd);
+					tmpwrd.clear();
+				}
 			}
 		}
 
