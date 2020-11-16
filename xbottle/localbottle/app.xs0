@@ -2,7 +2,7 @@ import(__CONST_APP_PREFIX+"/inclist.xs0");
 var app=class(){
     var main=function(){
         var s1="Hello,mother fucker~";
-        std.WriteFile(__CONST_APP_PREFIX+"/fromapp.txt","Hello,World.");
+        std.AppendToFile(__CONST_APP_PREFIX+"/fromapp.txt",s1);
         std.print(s1,std.endl);
         return 0;
     };

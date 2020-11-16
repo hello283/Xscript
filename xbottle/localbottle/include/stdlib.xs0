@@ -22,6 +22,12 @@ const std=class(){
     var input=getdl(stdhandle,"input");
     var WriteFile=getdl(stdhandle,"__WriteFile");
     var ReadFile=getdl(stdhandle,"__ReadFile");
+    // any file api
+    var AppendToFile=function(var filename,var content){
+        content= std.ReadFile(filename) + content; // Function Call Error
+        return std.WriteFile(filename,content);
+    };
+
     var toNegative=function(var s){
         return 0-s;
     };
