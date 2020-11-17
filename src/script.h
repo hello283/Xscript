@@ -599,6 +599,20 @@ ScriptResult Script(vector<word> wrd){
   // 判断主语
   //cout << "Hey!" << wrd[0].wd << " " << wrd[0].word_type << endl;
   // 为了防止误判断，在wrd的大小大于1的情况下，不对变量进行解析
+  // ++var;
+  if(wrd[0].word_type == chr && (wrd[0].wd == "++" || wrd[0].wd == "--") ){
+    vector<word> tmps;
+    tmps.push_back(wrd[1]);
+    tmps.push_back(word(chr,"="));
+    tmps.push_back(wrd[1]);
+    tmps.push_back(word(chr,(wrd[0].wd == "++") ? "+" : "-"));
+    tmps.push_back(word(con,"1"));
+    Script(tmps);
+    Type s=getTypeContent(wrd[1].wd);
+    scr.Content = s;
+    scr.res = _finally;
+    return scr;
+  }
   if(wrd[0].word_type == nam && !iscmd(wrd[0].wd) && getTypeContent(wrd[0].wd).type != _not_exist){
     //cout << "我tm直接我™.\n";
     if(wrd.size() <= 1){
@@ -613,7 +627,34 @@ ScriptResult Script(vector<word> wrd){
         Type tContent = eval(WordCollection(wrd,2));
         if(!setTypeContent(tname,tContent))  throw Error::NotDefine(tname);
         return ScriptResult(__SUCCESS__);
-      }if(wrd[1].word_type == chr && wrd[1].wd == "("){
+      }else if(wrd[1].word_type == chr && (wrd[1].wd == "++" || wrd[1].wd == "--") ){
+        Type s=getTypeContent(wrd[0].wd);
+        vector<word> tmps;
+        tmps.push_back(wrd[0]);
+        tmps.push_back(word(chr,"="));
+        tmps.push_back(wrd[0]);
+        tmps.push_back(word(chr,(wrd[1].wd == "++") ? "+" : "-"));
+        tmps.push_back(word(con,"1"));
+        Script(tmps);
+        scr.Content = s;
+        scr.res = _finally;
+        return scr;
+      }else if(wrd[1].word_type == chr && (wrd[1].wd == "+=" || wrd[1].wd == "-=")){
+        Type s=getTypeContent(wrd[0].wd);
+        vector<word> tmps;
+        tmps.push_back(wrd[0]);
+        tmps.push_back(word(chr,"="));
+        tmps.push_back(wrd[0]);
+        tmps.push_back(word(chr,(wrd[1].wd == "+=") ? "+" : "-"));
+        for(int i = 2;i < wrd.size();i++){
+          tmps.push_back(wrd[i]);
+        }
+        Script(tmps);
+        scr.Content = s;
+        scr.res = _finally;
+        return scr;
+      }
+      if(wrd[1].word_type == chr && wrd[1].wd == "("){
         //lalala
 		    ScriptResult scs;
         scs.Content=CallFunction(getTypeAddr(wrd[0].wd),wrd);

@@ -211,7 +211,7 @@ vector<word> WordParser(string code){
 			result.push_back(tmpwrd);
 			tmpwrd.clear();
 			continue;
-		}else if(code[i] == '+' && bk1 == 0 && content == 0){
+		}else if((code[i] == '+' || code[i] == '-') && bk1 == 0 && content == 0){
 			if(tmpwrd.wd != ""){
 				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
 				result.push_back(tmpwrd);
@@ -219,19 +219,18 @@ vector<word> WordParser(string code){
 				tmpwrd.clear();
 			}
 			tmpwrd.word_type = chr;
-			tmpwrd.wd = "+";
-			result.push_back(tmpwrd);
-			tmpwrd.clear();
-			continue;
-		}else if(code[i] == '-' && bk1 == 0 && content == 0){
-			if(tmpwrd.wd != ""){
-				tmpwrd.word_type = (tmpwrd.wd == "true" || tmpwrd.wd == "false") ? con : nam;
+			if(code[i+1] == code[i]){
+				tmpwrd.wd = (code[++i] == '+') ? "++" : "--";
 				result.push_back(tmpwrd);
-
 				tmpwrd.clear();
+				continue;
+			}else if(code[i+1] == '='){
+				tmpwrd.wd = (code[++i] == '+') ? "+=" : "-=";
+				result.push_back(tmpwrd);
+				tmpwrd.clear();
+				continue;
 			}
-			tmpwrd.word_type = chr;
-			tmpwrd.wd = "-";
+			tmpwrd.wd = (code[i] == '+') ? "+" : "-";
 			result.push_back(tmpwrd);
 			tmpwrd.clear();
 			continue;
