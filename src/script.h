@@ -645,9 +645,16 @@ ScriptResult Script(vector<word> wrd){
         tmps.push_back(wrd[0]);
         tmps.push_back(word(chr,"="));
         tmps.push_back(wrd[0]);
-        tmps.push_back(word(chr,(wrd[1].wd == "+=") ? "+" : "-"));
+        if(wrd[1].wd == "+="){
+          tmps.push_back(word(chr,"+"));
+        }else{
+          tmps.push_back(word(chr,"-"));
+        }
         for(int i = 2;i < wrd.size();i++){
           tmps.push_back(wrd[i]);
+        }
+        for(int i = 0;i < tmps.size();i++){
+          cout << tmps[i].wd;
         }
         Script(tmps);
         scr.Content = s;
