@@ -653,9 +653,6 @@ ScriptResult Script(vector<word> wrd){
         for(int i = 2;i < wrd.size();i++){
           tmps.push_back(wrd[i]);
         }
-        for(int i = 0;i < tmps.size();i++){
-          cout << tmps[i].wd;
-        }
         Script(tmps);
         scr.Content = s;
         scr.res = _finally;

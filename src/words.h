@@ -225,7 +225,8 @@ vector<word> WordParser(string code){
 				tmpwrd.clear();
 				continue;
 			}else if(code[i+1] == '='){
-				tmpwrd.wd = (code[++i] == '+') ? "+=" : "-="; // bugs here
+				tmpwrd.wd = (code[i] == '+') ? "+=" : "-="; // bugs here;finish at today
+				i++;
 				result.push_back(tmpwrd);
 				tmpwrd.clear();
 				continue;

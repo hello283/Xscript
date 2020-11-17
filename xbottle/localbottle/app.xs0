@@ -2,7 +2,7 @@ import(__CONST_APP_PREFIX+"/inclist.xs0");
 var app=class(){
     var main=function(){
         var s1=0;
-        std.print(--s1," ",s1++," ",s1+=2," ",++s1," ",++s1,std.endl);
+        std.print(--s1," ",s1++," ",s1-=2," ",++s1," ",++s1,std.endl);
         return 0;
     };
 };
