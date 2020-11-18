@@ -29,7 +29,7 @@ int main(int argc,const char ** argv){
         if(i==1){
             bottle_args["action"] = argv[1];
         }else{
-            cout << argv[i] << " " << argv[i+1] << endl;
+//            cout << argv[i] << " " << argv[i+1] << endl;
             bottle_args[argv[i]] = argv[i+1];
             i++;continue;
         }
@@ -103,6 +103,7 @@ int main(int argc,const char ** argv){
         init_env(&root_scope);
         Script(Text::ToString("var __CONST_APP_INCLUDE_DIR=") + '"' + bottle_args["path"] + "/" + bottle_config.key_["include-path"] + '"');
         Script(Text::ToString("var __CONST_APP_PREFIX=") + '"' + bottle_args["path"] + '"');
+        Script(EasyFiles::ReadFile(bottle_args["path"]+"/"+bottle_config.key_["main-script"]));
         while(true){
             #ifndef __WIN32
             cout << "\033[32m>>> \033[0m";

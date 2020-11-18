@@ -563,7 +563,7 @@ Type CallFunction(Type *func,vector<word> call_line){
   }
   //cout << "run,here" << endl;
   // 更改作用域
-  Type func_local_scope(now_scope);
+  Type func_local_scope(func->parent);
   Type* old_scope = now_scope;
   now_scope = &func_local_scope;
   // 参数定义
