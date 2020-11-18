@@ -4,5 +4,9 @@ CXXFLAGS := -lstdc++ -pipe -w -g -std=c++11
 xbottle: xbottle.cpp ../src/*.h
 	$(CC) xbottle.cpp -o xbottle $(CXXFLAGS)
 
-all: xbottle
+lib: ./localbottle/include/lib/*.cpp
+	cd ./localbottle/include/lib && $(MAKE) all
+	@echo "LIB SUCCESS"
+
+all: xbottle lib
 	@echo "ALL COMPILE"

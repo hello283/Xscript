@@ -1,7 +1,7 @@
 #include "../../../../src/stdc++.h"
 #include "../../../../src/script.h"
 
-extern "C" ScriptResult __init_array(vector<Type> list){
+extern "C" ScriptResult __init_array(Type* this_,vector<Type> list){
     ScriptResult scrs;
     for(int i = 0;i < list.size();i++){
         scrs.Content.node[to_string(i)] = list[i];
@@ -15,7 +15,7 @@ extern "C" ScriptResult __init_array(vector<Type> list){
     return scrs;
 }
 
-extern "C" ScriptResult __get_val(vector<Type> list){
+extern "C" ScriptResult __get_val(Type* this_,vector<Type> list){
     ScriptResult scrs;
     if(list.size() != 2){
         printf("__get_val: must has two args!\n");
@@ -34,7 +34,7 @@ extern "C" ScriptResult __get_val(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __set_val(vector<Type> list){
+extern "C" ScriptResult __set_val(Type* this_,vector<Type> list){
     ScriptResult scrs;
     if(list.size() != 3){
         printf("__set_val: must has three args!\n");
@@ -54,7 +54,7 @@ extern "C" ScriptResult __set_val(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __push_back(vector<Type> list){
+extern "C" ScriptResult __push_back(Type* this_,vector<Type> list){
     ScriptResult scrs;
     if(list.size() != 2){
         printf("__push_back: call format error!\n");
@@ -74,7 +74,7 @@ extern "C" ScriptResult __push_back(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __pop_back(vector<Type> list){
+extern "C" ScriptResult __pop_back(Type* this_,vector<Type> list){
     ScriptResult scrs;
     if(list.size() != 1){
         printf("__pop_back: call format error!\n");
@@ -92,7 +92,7 @@ extern "C" ScriptResult __pop_back(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __out_size(vector<Type> list){
+extern "C" ScriptResult __out_size(Type* this_,vector<Type> list){
     ScriptResult scrs;
     if(list.size() != 2){
         printf("__out_size: call format error!\n");

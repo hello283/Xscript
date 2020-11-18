@@ -582,8 +582,8 @@ Type CallFunction(Type *func,vector<word> call_line){
   cout << "fromDLL: " << func->fromDLL << endl;
   #endif
   if(func->fromDLL != NULL){
-    ScriptResult (*fromDym) (vector<Type>) = (ScriptResult (*)(vector<Type>))func->fromDLL;
-    ScriptResult s = (*fromDym)(tarr);
+    ScriptResult (*fromDym) (Type*,vector<Type>) = (ScriptResult (*)(Type*,vector<Type>))func->fromDLL;
+    ScriptResult s = (*fromDym)(now_scope,tarr);
     now_scope = old_scope;
     return s.Content;
   }

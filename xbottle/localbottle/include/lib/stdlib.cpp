@@ -3,12 +3,12 @@
 
 using namespace std;
 
-extern "C" ScriptResult test(vector<Type> list){
+extern "C" ScriptResult test(Type* this_,vector<Type> list){
     cout << "called!\n";
     return ScriptResult(__SUCCESS__);
 }
 
-extern "C" ScriptResult ___max(vector<Type> list){
+extern "C" ScriptResult ___max(Type* this_,vector<Type> list){
     if(list.size() != 2){
         ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
@@ -33,7 +33,7 @@ extern "C" ScriptResult ___max(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult ___min(vector<Type> list){
+extern "C" ScriptResult ___min(Type* this_,vector<Type> list){
     if(list.size() != 2){
         ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
@@ -58,7 +58,7 @@ extern "C" ScriptResult ___min(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult toCharCode(vector<Type> list){
+extern "C" ScriptResult toCharCode(Type* this_,vector<Type> list){
     if(list.size() != 1){
         ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
@@ -73,7 +73,7 @@ extern "C" ScriptResult toCharCode(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult charToStr(vector<Type> list){
+extern "C" ScriptResult charToStr(Type* this_,vector<Type> list){
     if(list.size() != 1){
         ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
@@ -88,7 +88,7 @@ extern "C" ScriptResult charToStr(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __stdf_max(vector<Type> list){
+extern "C" ScriptResult __stdf_max(Type* this_,vector<Type> list){
     if(list.size() != 2){
         ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
@@ -119,7 +119,7 @@ extern "C" ScriptResult __stdf_max(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __stdf_min(vector<Type> list){
+extern "C" ScriptResult __stdf_min(Type* this_,vector<Type> list){
     if(list.size() != 2){
         ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
@@ -150,7 +150,7 @@ extern "C" ScriptResult __stdf_min(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __stdf_toInt(vector<Type> list){
+extern "C" ScriptResult __stdf_toInt(Type* this_,vector<Type> list){
     if(list.size() != 1){
         ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
@@ -172,7 +172,7 @@ extern "C" ScriptResult __stdf_toInt(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __stdf_toFloat(vector<Type> list){
+extern "C" ScriptResult __stdf_toFloat(Type* this_,vector<Type> list){
     if(list.size() != 1){
         ScriptResult s(__FAILED__);
         s.Content.content[1]=0;
@@ -195,7 +195,7 @@ extern "C" ScriptResult __stdf_toFloat(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __stdf_set(vector<Type> list){
+extern "C" ScriptResult __stdf_set(Type* this_,vector<Type> list){
     if(list.size() != 1){
         ScriptResult s(__SUCCESS__);
         s.Content.content[1]=0;
@@ -226,7 +226,7 @@ extern "C" ScriptResult __stdf_set(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult print(vector<Type> list){
+extern "C" ScriptResult print(Type* this_,vector<Type> list){
     for(int i = 0;i < list.size();i++){
         if(list[i].vtype == _int){
             cout << stoi_(list[i].content);
@@ -241,7 +241,7 @@ extern "C" ScriptResult print(vector<Type> list){
     return ScriptResult(__SUCCESS__);
 }
 
-extern "C" ScriptResult strToInt(vector<Type> list){
+extern "C" ScriptResult strToInt(Type* this_,vector<Type> list){
     if(list.size() != 1){
         printf("strToInt: must have one arg!");
         return ScriptResult(__FAILED__);
@@ -257,7 +257,7 @@ extern "C" ScriptResult strToInt(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __ReadFile(vector<Type> list){
+extern "C" ScriptResult __ReadFile(Type* this_,vector<Type> list){
     if(list.size() == 1 && list[0].type != _not_exist && list[0].vtype == _str){
         ScriptResult scrs;
         scrs.Content.type = _var;
@@ -271,7 +271,7 @@ extern "C" ScriptResult __ReadFile(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult __WriteFile(vector<Type> list){
+extern "C" ScriptResult __WriteFile(Type* this_,vector<Type> list){
     if(list.size() == 2 && list[0].type != _not_exist && list[1].vtype == _str && list[1].type != _not_exist && list[1].vtype == _str){
         EasyFiles::WriteFile(list[0].content,list[1].content);
         return ScriptResult(__SUCCESS__);
@@ -281,7 +281,7 @@ extern "C" ScriptResult __WriteFile(vector<Type> list){
     }
 }
 
-extern "C" ScriptResult input(vector<Type> list){
+extern "C" ScriptResult input(Type* this_,vector<Type> list){
     ScriptResult scrs;
     scrs.Content.type = _var;
     scrs.Content.vtype = _str;
