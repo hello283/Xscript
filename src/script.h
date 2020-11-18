@@ -150,6 +150,7 @@ bool checkSafe(Type* target){
       #endif
       iter->second.parent = target;
     }
+    if(iter->second.name != iter->first)  iter->second.name = iter->first;
   }
 }
 
