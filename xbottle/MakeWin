@@ -5,7 +5,7 @@ xbottle: xbottle.cpp ../src/*.h
 	$(CC) xbottle.cpp -o xbottle $(CXXFLAGS)
 
 lib: ./localbottle/include/lib/*.cpp
-	cd ./localbottle/include/lib && $(MAKE) all
+	cd ./localbottle/include/lib && "$(MAKE)" all
 	@echo "LIB SUCCESS"
 
 all: xbottle lib
