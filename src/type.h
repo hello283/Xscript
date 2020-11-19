@@ -144,10 +144,12 @@ class Type{
         bool isexist(TypeFinder tyfind){
           if(tyfind.path.empty()){
             // 丢弃掉原有的修饰符
-            if(node.find(tyfind.name) != node.end()){
+            if(node[tyfind.name].type != _not_exist){
               return true;
+            }else{
+              node.erase(tyfind.name);
+              return false;
             }
-            return false;
           }
           string name = tyfind.path.top();
           tyfind.path.pop();
