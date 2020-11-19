@@ -1,7 +1,6 @@
 #include "./script.h"
 using namespace std;
 
-
 #ifdef _WIN32
   #ifdef _WIN64
     string OSType(){return "Windows64";}

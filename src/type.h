@@ -94,10 +94,10 @@ class Type{
 
         Type getNode(TypeFinder tyfind){
           if(tyfind.path.empty()){
-		  if(node[tyfind.name].type == _not_exist){
-			node.erase(tyfind.name);
-			return Type();
-		  }
+		        if(node[tyfind.name].type == _not_exist){
+			        node.erase(tyfind.name);
+			        return Type();
+		        }
             return node[tyfind.name];
           }
           string name = tyfind.path.top();
@@ -107,10 +107,10 @@ class Type{
 
         Type* getNodeAddr(TypeFinder tyfind){
           if(tyfind.path.empty()){
-			if(node[tyfind.name].type == _not_exist){
-			  node.erase(tyfind.name);
-			  return this;  // here is a bomb
-			}
+			      if(node[tyfind.name].type == _not_exist){
+			        node.erase(tyfind.name);
+  			      return this;  // here is a bomb
+			      }
             return &node[tyfind.name];
           }
           string name = tyfind.path.top();

@@ -410,6 +410,8 @@ public:
   }
 };
 
+Type CallFunction(Type *func,vector<Type> args);
+
 Type eval(ExprTree expr){
   // 左右两端哪个大先算哪个
   Type left,right;
@@ -427,7 +429,16 @@ Type eval(ExprTree expr){
     right = eval(expr.lr[0]);
   }
   if(expr.oper.wd == "=="){
-    //cout << "我人傻掉==.\n";
+    //cout << "我人傻掉==.\n";    
+    if(left.isexist(getPath("__eq__"))){
+      vector<Type> targs;
+      targs.push_back(right);
+      return CallFunction(&left.node["__eq__"],targs);
+    }else if(right.isexist(getPath("__eq__"))){
+      vector<Type> targs;
+      targs.push_back(left);
+      return CallFunction(&left.node["__eq__"],targs);
+    }
     if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
@@ -440,6 +451,15 @@ Type eval(ExprTree expr){
     }
   }else if(expr.oper.wd == "!="){
     //cout << "我人傻掉!=.\n";
+    if(left.isexist(getPath("__neq__"))){
+      vector<Type> targs;
+      targs.push_back(right);
+      return CallFunction(&left.node["__neq__"],targs);
+    }else if(right.isexist(getPath("__neq__"))){
+      vector<Type> targs;
+      targs.push_back(left);
+      return CallFunction(&left.node["__neq__"],targs);
+    }
     if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
@@ -452,6 +472,15 @@ Type eval(ExprTree expr){
     }
   }else if(expr.oper.wd == "<"){
     //cout << "我人傻掉<.\n";
+    if(left.isexist(getPath("__min__"))){
+      vector<Type> targs;
+      targs.push_back(right);
+      return CallFunction(&left.node["__min__"],targs);
+    }else if(right.isexist(getPath("__min__"))){
+      vector<Type> targs;
+      targs.push_back(left);
+      return CallFunction(&left.node["__min__"],targs);
+    }
     if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
@@ -463,6 +492,15 @@ Type eval(ExprTree expr){
     }
   }else if(expr.oper.wd == ">"){
     //cout << "我人傻掉>.\n";
+    if(left.isexist(getPath("__max__"))){
+      vector<Type> targs;
+      targs.push_back(right);
+      return CallFunction(&left.node["__max__"],targs);
+    }else if(right.isexist(getPath("__max__"))){
+      vector<Type> targs;
+      targs.push_back(left);
+      return CallFunction(&left.node["__max__"],targs);
+    }
     if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
@@ -474,6 +512,15 @@ Type eval(ExprTree expr){
     }
   }else if(expr.oper.wd == "<="){
     //cout << "我人傻掉<=.\n";
+    if(left.isexist(getPath("__mineq__"))){
+      vector<Type> targs;
+      targs.push_back(right);
+      return CallFunction(&left.node["__mineq__"],targs);
+    }else if(right.isexist(getPath("__mineq__"))){
+      vector<Type> targs;
+      targs.push_back(left);
+      return CallFunction(&left.node["__mineq__"],targs);
+    }
     if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
@@ -485,6 +532,15 @@ Type eval(ExprTree expr){
     }
   }else if(expr.oper.wd == ">="){
     //cout << "我人傻掉>=.\n";
+    if(left.isexist(getPath("__maxeq__"))){
+      vector<Type> targs;
+      targs.push_back(right);
+      return CallFunction(&left.node["__maxeq__"],targs);
+    }else if(right.isexist(getPath("__maxeq__"))){
+      vector<Type> targs;
+      targs.push_back(left);
+      return CallFunction(&left.node["__maxeq__"],targs);
+    }
     if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
@@ -497,23 +553,59 @@ Type eval(ExprTree expr){
   }else if(expr.oper.wd == "*"){
     // check var proto
     //cout << "我人傻掉*.\n";
+    if(left.isexist(getPath("__multiple__"))){
+      vector<Type> targs;
+      targs.push_back(right);
+      return CallFunction(&left.node["__multiple__"],targs);
+    }else if(right.isexist(getPath("__multiple__"))){
+      vector<Type> targs;
+      targs.push_back(left);
+      return CallFunction(&left.node["__multiple__"],targs);
+    }
     if(left.vtype != _int && right.vtype != _int) throw Error::SyntaxError("TypeError: '*' operation must apply on two int proto object!");
     left.content = itos(stoi_(left.content)*stoi_(right.content));
     return left;
   }else if(expr.oper.wd == "/"){
     // check var proto
     //cout << "我人傻掉/ \n";
+    if(left.isexist(getPath("__div__"))){
+      vector<Type> targs;
+      targs.push_back(right);
+      return CallFunction(&left.node["__div__"],targs);
+    }else if(right.isexist(getPath("__div__"))){
+      vector<Type> targs;
+      targs.push_back(left);
+      return CallFunction(&left.node["__div__"],targs);
+    }
     if(left.vtype != _int && right.vtype != _int) throw Error::SyntaxError("TypeError: '/' operation must apply on two int proto object!");
     left.content = itos(stoi_(left.content)/stoi_(right.content));
     return left;
   }else if(expr.oper.wd == "%"){
     //cout << "我人傻掉%.\n";
     // check var proto
+    if(left.isexist(getPath("__mod__"))){
+      vector<Type> targs;
+      targs.push_back(right);
+      return CallFunction(&left.node["__mod__"],targs);
+    }else if(right.isexist(getPath("__mod__"))){
+      vector<Type> targs;
+      targs.push_back(left);
+      return CallFunction(&left.node["__mod__"],targs);
+    }
     if(left.vtype != _int && right.vtype != _int) throw Error::SyntaxError("TypeError: '%' operation must apply on two int proto object!");
     left.content = itos(stoi_(left.content)%stoi_(right.content));
     return left;
   }else if(expr.oper.wd == "+"){
     //cout << "我人傻掉+.\n";
+    if(left.isexist(getPath("__add__"))){
+      vector<Type> targs;
+      targs.push_back(right);
+      return CallFunction(&left.node["__add__"],targs);
+    }else if(right.isexist(getPath("__add__"))){
+      vector<Type> targs;
+      targs.push_back(left);
+      return CallFunction(&left.node["__add__"],targs);
+    }
     if(left.vtype == _int && right.vtype == _int){
       //cout << stoi_(left.content) << " " << stoi_(right.content) << endl;
       left.content = itos(stoi_(left.content)+stoi_(right.content));
@@ -530,6 +622,15 @@ Type eval(ExprTree expr){
     }
   }else if(expr.oper.wd == "-"){
     //cout << "我人傻掉-.\n";
+    if(left.isexist(getPath("__sub__"))){
+      vector<Type> targs;
+      targs.push_back(right);
+      return CallFunction(&left.node["__sub__"],targs);
+    }else if(right.isexist(getPath("__sub__"))){
+      vector<Type> targs;
+      targs.push_back(left);
+      return CallFunction(&left.node["__sub__"],targs);
+    }
     if(left.vtype == _int && right.vtype == _int){
       left.content = itos(stoi_(left.content)-stoi_(right.content));
       return left;
@@ -547,6 +648,43 @@ Type eval(vector<word> tokens){
 }
 
 // 解释函数
+Type CallFunction(Type *func,vector<Type> args){
+  #ifdef __SCRIPT_DEBUG
+	cout << now_scope << endl;
+  #endif
+  if((*func).vtype != _function){
+    throw Error::TypeError((*func).name);
+  }
+  // 更改作用域
+  Type func_local_scope(func->parent);
+  Type* old_scope = now_scope;
+  now_scope = &func_local_scope;
+  // 参数定义
+  for(int i = 0;i < (*func).args.size();i++){
+    Script((*func).args[i]);
+    // 获取参数名称
+    size_t namepos = getWordPos((*func).args[i],chr,Text::ToString("="));
+    if(namepos == WORD_NOTFOUND){
+      namepos = (*func).args[i].size() - 1;
+    }
+    //cout << "Name: " << (*func).args[i][namepos].wd << endl;
+    setTypeContent((*func).args[i][namepos].wd,args[i]);
+  }
+  #ifdef __SCRIPT_DEBUG
+	cout << now_scope << endl;
+  cout << "fromDLL: " << func->fromDLL << endl;
+  #endif
+  if(func->fromDLL != NULL){
+    ScriptResult (*fromDym) (Type*,vector<Type>) = (ScriptResult (*)(Type*,vector<Type>))func->fromDLL;
+    ScriptResult s = (*fromDym)(now_scope,args);
+    now_scope = old_scope;
+    return s.Content;
+  }
+  ScriptResult s = Script((*func).content);
+  now_scope = old_scope;
+  return s.Content;
+}
+
 Type CallFunction(Type *func,vector<word> call_line){
   #ifdef __SCRIPT_DEBUG
 	cout << now_scope << endl;
@@ -562,35 +700,7 @@ Type CallFunction(Type *func,vector<word> call_line){
   for(int i = 0;i < carr.size();i++){
     tarr.push_back(Script(carr[i]).Content);
   }
-  //cout << "run,here" << endl;
-  // 更改作用域
-  Type func_local_scope(func->parent);
-  Type* old_scope = now_scope;
-  now_scope = &func_local_scope;
-  // 参数定义
-  for(int i = 0;i < (*func).args.size();i++){
-    Script((*func).args[i]);
-    // 获取参数名称
-    size_t namepos = getWordPos((*func).args[i],chr,Text::ToString("="));
-    if(namepos == WORD_NOTFOUND){
-      namepos = (*func).args[i].size() - 1;
-    }
-    //cout << "Name: " << (*func).args[i][namepos].wd << endl;
-    setTypeContent((*func).args[i][namepos].wd,tarr[i]);
-  }
-  #ifdef __SCRIPT_DEBUG
-	cout << now_scope << endl;
-  cout << "fromDLL: " << func->fromDLL << endl;
-  #endif
-  if(func->fromDLL != NULL){
-    ScriptResult (*fromDym) (Type*,vector<Type>) = (ScriptResult (*)(Type*,vector<Type>))func->fromDLL;
-    ScriptResult s = (*fromDym)(now_scope,tarr);
-    now_scope = old_scope;
-    return s.Content;
-  }
-  ScriptResult s = Script((*func).content);
-  now_scope = old_scope;
-  return s.Content;
+  return CallFunction(func,tarr);
 }
 
 // 解释代码

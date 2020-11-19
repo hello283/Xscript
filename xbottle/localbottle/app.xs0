@@ -1,8 +1,14 @@
 import(__CONST_APP_PREFIX+"/inclist.xs0");
+var test=class(){
+    var __add__=function(var s){
+        std.print("Here");
+    }
+}
+
 var app=class(){
     var main=function(){
-        var s1=0;
-        std.print(--s1," ",s1++," ",s1+=2," ",++s1," ",++s1,std.endl);
+        var s1=test;
+        var s2=test+0;
         return 0;
     };
 };
