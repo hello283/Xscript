@@ -596,14 +596,11 @@ Type eval(ExprTree expr){
     left.content = itos(stoi_(left.content)%stoi_(right.content));
     return left;
   }else if(expr.oper.wd == "+"){
-    cout << "我人傻掉+.\n";
     if(left.isexist(getPath("__add__"))){
-      cout << "Here" << endl;
       vector<Type> targs;
       targs.push_back(right);
       return CallFunction(&left.node["__add__"],targs);
     }else if(right.isexist(getPath("__add__"))){
-      cout << "Here" << endl;
       vector<Type> targs;
       targs.push_back(left);
       return CallFunction(&left.node["__add__"],targs);

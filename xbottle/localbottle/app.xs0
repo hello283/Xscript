@@ -3,7 +3,7 @@ var test=class(){
     var __add__=function(var s){
         std.print("Here");
     }
-}
+};
 
 var app=class(){
     var main=function(){
