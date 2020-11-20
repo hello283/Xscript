@@ -1,7 +1,8 @@
 import(__CONST_APP_PREFIX+"/inclist.xs0");
 var test=class(){
     var __add__=function(var s){
-        std.print("Here");
+        std.print(this);
+        return 114514;
     }
 };
 
@@ -9,6 +10,12 @@ var app=class(){
     var main=function(){
         var s1=test;
         var s2=test+0;
+        if(s2==114514){
+            std.print("好臭啊！哼哼啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊!\n",std.endl);
+            return 114514;
+        }else{
+            return 233;
+        };
         return 0;
     };
 };

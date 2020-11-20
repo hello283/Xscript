@@ -154,6 +154,8 @@ bool checkSafe(Type* target){
   }
 }
 
+string str_redirect(string s);
+
 // 变量
 Type getTypeContent(string name){
   #ifdef __SCRIPT_DEBUG
@@ -166,13 +168,15 @@ Type getTypeContent(string name){
   //checkSafe(now_scope);
   TypeFinder tpf = getPath(name);
   Type global = root_scope.getNode(tpf);
-  if(global.type != _not_exist) return global;
+  if(global.type != _not_exist){if(global.vtype == _str) global.content = str_redirect(global.content);return global;};
+  
   Type thisScope = now_scope->getNode(tpf);
-  if(thisScope.type != _not_exist) return thisScope;
+  if(thisScope.type != _not_exist){if(thisScope.vtype == _str) thisScope.content = str_redirect(thisScope.content);return thisScope;};
 
   Type inThisParent = now_scope->parent->getNode(tpf);
-    return inThisParent;
+    if(inThisParent.type != _not_exist){if(inThisParent.vtype == _str) inThisParent.content = str_redirect(inThisParent.content);return inThisParent;};
   
+  return Type();
 }
 
 bool IsTypeExist(string name){
@@ -333,6 +337,18 @@ string Format(string s){
   }
   return res;
 }
+
+string str_redirect(string s){
+  s=replace_all(s,"\\\\","thisisacoloregg_you_should_dontopenit_1");
+  s=replace_all(s,"\\n","\n");
+  s=replace_all(s,"\\033","\033");
+  s=replace_all(s,"\\0","\0");
+  s=replace_all(s,"\\b","\b");
+  s=replace_all(s,"\\r","\r");
+  s=replace_all(s,"thisisacoloregg_you_should_dontopenit_1","\\");
+  return s;
+}
+
 ScriptResult Script(string expr);
 ScriptResult Script(vector<word> wrd);
 
@@ -723,7 +739,7 @@ ScriptResult Script(vector<word> wrd){
     scr.res = _finally;
     return scr;
   }
-  if(wrd[0].word_type == nam && !iscmd(wrd[0].wd) && getTypeContent(wrd[0].wd).type != _not_exist){
+  if(wrd[0].word_type == nam && getTypeContent(wrd[0].wd).type != _not_exist){
     //cout << "我tm直接我™.\n";
     if(wrd.size() <= 1){
       scr.Content = getTypeContent(wrd[0].wd);
