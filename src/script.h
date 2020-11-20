@@ -5,12 +5,12 @@
 #include "const.h"
 #include "dlfcn.h"
 
-using namespace std;
+using namespace std; 
 
 string pkgname = "";
 
 string CoreVersion(){
-  return "release1.1";
+  return "release2.0";
 }
 
 enum hantype{
