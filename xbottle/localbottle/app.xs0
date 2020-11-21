@@ -1,7 +1,6 @@
 import(__CONST_APP_PREFIX+"/inclist.xs0");
 var test=class(){
     var __add__=function(var s){
-        std.print(this);
         return 114514;
     }
 };

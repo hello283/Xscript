@@ -1140,7 +1140,7 @@ ScriptResult Script(vector<word> wrd){
       wrd[0].wd.erase(wrd[0].wd.begin());
       //if(*(wrd[0].wd.end()) != '"')  throw Error::SyntaxError(Text::ToString("Invalid Syntax")+wrd[0].wd);
       //wrd[0].wd.erase(wrd[0].wd.end());
-      scr.Content.content = wrd[0].wd.substr(0,wrd[0].wd.length() - 1);
+      scr.Content.content = str_redirect(wrd[0].wd.substr(0,wrd[0].wd.length() - 1));
       //cout << "Content: " << wrd[0].wd.substr(0,wrd[0].wd.length() - 1) << endl;
       scr.Content.vtype = _str;
       scr.Content.type = _var;
