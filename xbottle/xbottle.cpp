@@ -1,5 +1,6 @@
-//#include "../src/env.h"
-#include "./xconfig.h"
+//#include "./xconfig.h"
+#include "../src/const.h"
+#include "../src/env.h"
 
 map<string,string> bottle_args;
 string help_doc[] = {
@@ -133,5 +134,46 @@ int main(int argc,const char ** argv){
                     tpx.what();
                 }
             }
+        }else if(bottle_args["action"] == "server"){
+            webinit(atoi(bottle_args["port"].data()));
+            cout << "Server Started at port" << atoi(bottle_args["port"].data()) << endl;
+            while (-1 != (clientSock = accept(sock,(sockaddr*)&clientAddr, (socklen_t*)&clientAddrSize))){
+                string requestStr;
+                int bufSize = 4096;
+                requestStr.resize(bufSize);
+                recv(clientSock, &requestStr[0], bufSize, 0);
+
+                string firstLine = requestStr.substr(0, requestStr.find("\r\n"));
+                firstLine = firstLine.substr(firstLine.find(" ") + 1);//substr，复制函数，参数为起始位置（默认0），复制的字符数目
+                string url = firstLine.substr(0, firstLine.find(" "));//find返回找到的第一个匹配字符串的位置，而不管其后是否还有相匹配的字符串。
+                servfilereq servfile("./"+bottle_args["root"] + "/",url);
+                if(!servfile.finish){
+                    string response = "HTTP/1.1 404 OK\r\n\r\n404Error";
+                    webecho(response);
+                }else if(servfile.req_mime == "xbottle/xs0"){
+                    string response = Text::ToString("") + "HTTP/1.1 200 OK\r\n" + "Content-Type: text/html; charset=utf-8\r\n" +"\r\n";
+                    webecho(response);
+                    Xconfig bottle_config = Xconfig(bottle_args["root"]+"/bottles-settings.list");
+                    now_scope = &root_scope;
+                    init_env(&root_scope);
+                    try{
+//                        cout << Script("__CONST_APP_INCLUDE_DIR").Content.vtype << endl;
+                        Script(Text::ToString("var __CONST_APP_INCLUDE_DIR=") + '"' + bottle_args["root"] + "/" + bottle_config.key_["include-path"] + '"');
+                        Script(Text::ToString("var __CONST_APP_PREFIX=") + '"' + bottle_args["root"] + '"');
+                        Script(servfile.fcontent);
+                        root_scope.node.clear();
+                    }catch (Error::AlreadyExist e){
+                        e.what();
+                    }catch (Error::SyntaxError e){
+                        e.what();
+                    }
+                }else{
+                    string response = Text::ToString("") + "HTTP/1.1 200 OK\r\n" + "Content-Type:" + servfile.req_mime + "; charset=utf-8\r\n" +"\r\n" + servfile.fcontent;
+                    webecho(response);
+                }
+                servfile.finish = false;
+                close(clientSock);
+            }
+            close(sock);
         }
 }

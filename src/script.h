@@ -7,6 +7,10 @@
 
 using namespace std; 
 
+#ifdef __WEB_SERV
+#include "../xbottle/web_kit/webserver.hpp"
+#endif
+
 string pkgname = "";
 
 string CoreVersion(){
@@ -57,41 +61,6 @@ size_t find(string str,char ch,int start = 0){
         }
         return 18446744073709551615;
     }
-
-namespace EasyFiles{
-	class FileError{
-		public:
-		class CanNotOpenFile{
-			public:
-			void what(){
-				cerr << "Can Not Open File!\n";
-			}
-		};
-	};
-	string ReadFile(string FileName){
-		string ret;
-		FILE* fd = fopen(FileName.data(),"r+");
-    if(fd == NULL){
-      cout << "Failed!:" << FileName << endl;
-      throw EasyFiles::FileError::CanNotOpenFile();
-    }else{
-      for (char byte = 0; (byte = fgetc(fd)) != EOF ; ret += byte);
-      return ret;
-    }
-	}
-
-	string WriteFile(string FileName,string Output){
-		fstream f1;
-  	f1.open(FileName.data(),ios::out|ios::trunc|ios_base::out);
-		if(!f1.is_open()){
-      cout << "Failed:" << FileName << endl;
-      throw FileError::CanNotOpenFile();
-    }
-		f1 << Output;
-		f1.close();
-		return Output;
-	}
-}
 
 string&   replace_all(string&   str,const   string&   old_value,const   string&   new_value)
 {
@@ -244,51 +213,6 @@ bool newTypeContent(string name,Type write,bool inglobal = false){
   TypeFinder tpf = getPath(name);
   if(inglobal)  return root_scope.newNode(tpf,write);
   return now_scope->newNode(tpf,write);
-}
-
-// 代码分割
-vector<string> CodeSplit(string toSplit,char spliter){
-    vector<string> result;
-    bool flag = false;
-    int taowa = 0;
-    string tmp;
-    for(int i = 0;i < toSplit.length();i++){
-        if(toSplit[i] == '"'){
-        //cout << "There is a \"!Flag Coverted!\n";
-        flag = !flag;
-        //continue;
-        }
-        if(toSplit[i] == spliter){
-            if(flag || (!flag && taowa != 0)){
-                //cout<< "Here Is Flag!Continue!\n";
-                goto con;
-            }
-            else{
-                //cout << flag << endl;
-                //cout << toSplit[i] << ": There Not Flags!Pushing to array!\n";
-                result.push_back(tmp);
-                tmp = "";
-                continue;
-            }
-        }
-        if(toSplit[i] == '{' && !flag){
-            taowa++;
-        }
-        if(toSplit[i] == '}' && !flag){
-            taowa--;
-        }
-
-        con:
-        tmp += toSplit[i];
-        if(i == toSplit.length() - 1){
-            //cout << "There Is End Of Str!\n";
-            result.push_back(tmp);
-            tmp = "";
-            continue;
-        }
-        /**/
-    }
-    return result;
 }
 
 // 代码格式化
@@ -923,7 +847,20 @@ ScriptResult Script(vector<word> wrd){
       }else{
         return Script(s.content);
       }
-    }else if(wrd[0].wd == "dlopen"){
+    }
+    #if defined __WEB_SERV
+    else if(wrd[0].wd == "webecho"){
+      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
+      Type s = eval(expr);
+      if(s.type == _not_exist || s.vtype != _str){
+        return ScriptResult(__FAILED__);
+      }else{
+        webecho(s.content);
+        return ScriptResult(__SUCCESS__);
+      }
+    }
+    #endif
+    else if(wrd[0].wd == "dlopen"){
       // Open Dymaic Library
       vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
       //printf("%d",expr.size());

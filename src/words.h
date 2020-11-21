@@ -98,6 +98,88 @@ namespace Text{
     }
 }
 
+
+
+namespace EasyFiles{
+	class FileError{
+		public:
+		class CanNotOpenFile{
+			public:
+			void what(){
+				cerr << "Can Not Open File!\n";
+			}
+		};
+	};
+	string ReadFile(string FileName){
+		string ret;
+		FILE* fd = fopen(FileName.data(),"r+");
+    if(fd == NULL){
+      cout << "Failed!:" << FileName << endl;
+      throw EasyFiles::FileError::CanNotOpenFile();
+    }else{
+      for (char byte = 0; (byte = fgetc(fd)) != EOF ; ret += byte);
+      return ret;
+    }
+	}
+
+	string WriteFile(string FileName,string Output){
+		fstream f1;
+  	f1.open(FileName.data(),ios::out|ios::trunc|ios_base::out);
+		if(!f1.is_open()){
+      cout << "Failed:" << FileName << endl;
+      throw FileError::CanNotOpenFile();
+    }
+		f1 << Output;
+		f1.close();
+		return Output;
+	}
+}
+
+// 代码分割
+vector<string> CodeSplit(string toSplit,char spliter){
+    vector<string> result;
+    bool flag = false;
+    int taowa = 0;
+    string tmp;
+    for(int i = 0;i < toSplit.length();i++){
+        if(toSplit[i] == '"'){
+        //cout << "There is a \"!Flag Coverted!\n";
+        flag = !flag;
+        //continue;
+        }
+        if(toSplit[i] == spliter){
+            if(flag || (!flag && taowa != 0)){
+                //cout<< "Here Is Flag!Continue!\n";
+                goto con;
+            }
+            else{
+                //cout << flag << endl;
+                //cout << toSplit[i] << ": There Not Flags!Pushing to array!\n";
+                result.push_back(tmp);
+                tmp = "";
+                continue;
+            }
+        }
+        if(toSplit[i] == '{' && !flag){
+            taowa++;
+        }
+        if(toSplit[i] == '}' && !flag){
+            taowa--;
+        }
+
+        con:
+        tmp += toSplit[i];
+        if(i == toSplit.length() - 1){
+            //cout << "There Is End Of Str!\n";
+            result.push_back(tmp);
+            tmp = "";
+            continue;
+        }
+        /**/
+    }
+    return result;
+}
+
 enum wtype{
 	chr=0,
 	sep=1,

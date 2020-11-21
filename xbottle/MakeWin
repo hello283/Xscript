@@ -1,11 +1,11 @@
 CC := g++
-CXXFLAGS := -lstdc++ -pipe -w -g -std=c++11
+CXXFLAGS := -lstdc++ -pipe -w -g -std=c++11 -lws2_32
 
 xbottle: xbottle.cpp ../src/*.h
 	$(CC) xbottle.cpp -o xbottle $(CXXFLAGS)
 
 lib: ./localbottle/include/lib/*.cpp
-	cd ./localbottle/include/lib && "$(MAKE)" all
+	cd ./localbottle/include/lib && "$(MAKE)" all_win
 	@echo "LIB SUCCESS"
 
 all: xbottle lib

@@ -1,4 +1,6 @@
-#include "../src/env.h"
+#pragma once
+
+#include "../src/words.h"
 using namespace std;
 
 class Xconfig{
