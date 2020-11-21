@@ -14,14 +14,20 @@ if(os=="linux"){
 const stdhandle = dlopen(stdlocation);
 const std=class(){
     var print=getdl(stdhandle,"print");
+
     var max=getdl(stdhandle,"___max");
     var min=getdl(stdhandle,"___min");
+
     var toCharCode=getdl(stdhandle,"toCharCode");
     var charToStr=getdl(stdhandle,"charToStr");
     var strToInt=getdl(stdhandle,"strToInt");
+
     var input=getdl(stdhandle,"input");
+
     var WriteFile=getdl(stdhandle,"__WriteFile");
     var ReadFile=getdl(stdhandle,"__ReadFile");
+    var ListFiles = getdl(stdhandle,"__listfiles");
+
     // any file api
     var AppendToFile=function(var filename,var content){
         content= std.ReadFile(filename) + content; // Function Call Error

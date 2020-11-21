@@ -75,7 +75,8 @@ class servfilereq{
         bool finish = false;
         servfilereq(string prefix,string filename){
             string line = filename;
-            filename = filename.substr(0,filename.length() - filename.find('?'));
+
+            filename = filename.substr(0,filename.find('?'));
             filename = (filename == "") ? "/index.xs0" : filename ;
             try{
                 fcontent = EasyFiles::ReadFile(prefix + filename);

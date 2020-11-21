@@ -1,3 +1,5 @@
 import(__CONST_APP_PREFIX+"/inclist.xs0");
 
-webecho("<h1>hello,World</h1>");
+var s=__BROWSER_URL;
+webecho(s);
+//webecho("<h1>hello,World</h1>","errrrrr");

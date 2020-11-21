@@ -9,7 +9,7 @@ string help_doc[] = {
     "action:\n",
     "---- create ... Create a new bottle\n",
     "---- run    ... Run Bottle         \n",
-    "---- man    ... manage a bottle    \n",
+    "---- server ... Start a Web Server \n",
     "===================================\n",
     "If you have any questions,please send an email to developer: 3134714226@qq.com or zhouyongkang4321@gmail.com\n",
 };
@@ -146,7 +146,7 @@ int main(int argc,const char ** argv){
                 string firstLine = requestStr.substr(0, requestStr.find("\r\n"));
                 firstLine = firstLine.substr(firstLine.find(" ") + 1);//substr，复制函数，参数为起始位置（默认0），复制的字符数目
                 string url = firstLine.substr(0, firstLine.find(" "));//find返回找到的第一个匹配字符串的位置，而不管其后是否还有相匹配的字符串。
-                servfilereq servfile("./"+bottle_args["root"] + "/",url);
+                servfilereq  servfile("./"+bottle_args["root"] + "/",url);
                 if(!servfile.finish){
                     string response = "HTTP/1.1 404 OK\r\n\r\n404Error";
                     webecho(response);
@@ -160,6 +160,7 @@ int main(int argc,const char ** argv){
 //                        cout << Script("__CONST_APP_INCLUDE_DIR").Content.vtype << endl;
                         Script(Text::ToString("var __CONST_APP_INCLUDE_DIR=") + '"' + bottle_args["root"] + "/" + bottle_config.key_["include-path"] + '"');
                         Script(Text::ToString("var __CONST_APP_PREFIX=") + '"' + bottle_args["root"] + '"');
+                        Script(Text::ToString("var __BROWSER_URL=") + '"' + url + '"');
                         Script(servfile.fcontent);
                         root_scope.node.clear();
                     }catch (Error::AlreadyExist e){

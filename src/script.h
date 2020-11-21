@@ -850,14 +850,16 @@ ScriptResult Script(vector<word> wrd){
     }
     #if defined __WEB_SERV
     else if(wrd[0].wd == "webecho"){
-      vector<word> expr = WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")"));
-      Type s = eval(expr);
-      if(s.type == _not_exist || s.vtype != _str){
-        return ScriptResult(__FAILED__);
-      }else{
-        webecho(s.content);
-        return ScriptResult(__SUCCESS__);
+      vector< vector<word> > expr = WordSpliter(WordCollection(wrd,getWordPos(wrd,chr,"(")+1,getWordPos(wrd,chr,")")),word(chr,","));
+      for(int i = 0;i < expr.size();i++){
+        Type s = eval(expr[i]);
+        if(s.type == _not_exist || s.vtype != _str){
+          return ScriptResult(__FAILED__);
+        }else{
+          webecho(s.content);
+        }
       }
+      return ScriptResult(__SUCCESS__);
     }
     #endif
     else if(wrd[0].wd == "dlopen"){

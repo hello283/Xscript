@@ -289,3 +289,26 @@ extern "C" ScriptResult input(Type* this_,vector<Type> list){
     getline(cin,scrs.Content.content);
     return scrs;
 }
+
+// Return an standard array
+extern "C" ScriptResult __listfiles(Type* this_, vector<Type> list){
+    if(list.size() == 1 && list[0].vtype == _str){
+        ScriptResult scrs;
+        vector<string>   namearray;
+        GetFileNames(list[0].content,namearray);
+        scrs.Content.type = _var;
+        scrs.Content.vtype = _str;
+        scrs.Content.node["prototype_"].type = _var;
+        scrs.Content.node["prototype_"].vtype = _str;
+        scrs.Content.node["prototype_"].content = "__stdlib_array__";
+        for(int i = 0;i < namearray.size();i++){
+            scrs.Content.node[to_string(i)].type = _var;
+            scrs.Content.node[to_string(i)].vtype = _str;
+            scrs.Content.node[to_string(i)].content = namearray[i];
+        }
+        scrs.res = _finally;
+        return scrs;
+    }else{
+        return ScriptResult(__FAILED__);
+    }
+}
