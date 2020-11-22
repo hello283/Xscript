@@ -301,15 +301,30 @@ extern "C" ScriptResult __listfiles(Type* this_, vector<Type> list){
         scrs.Content.node["prototype_"].type = _var;
         scrs.Content.node["prototype_"].vtype = _str;
         scrs.Content.node["prototype_"].content = "__stdlib_array__";
+        scrs.res = _finally;
+        if(namearray.empty())  return scrs;
         for(int i = 0;i < namearray.size();i++){
             scrs.Content.node[to_string(i)].type = _var;
             scrs.Content.node[to_string(i)].vtype = _str;
             scrs.Content.node[to_string(i)].content = namearray[i];
+            try{
+                scrs.Content.node[to_string(i)].node["type"].type = _var;
+                scrs.Content.node[to_string(i)].node["type"].vtype = _str;
+                EasyFiles::ReadFile(list[0].content + "/" + namearray[i]);
+                scrs.Content.node[to_string(i)].node["type"].content = "file";
+            }catch (EasyFiles::FileError::CanNotOpenFile e){
+                scrs.Content.node[to_string(i)].node["type"].content = "directory";
+            };
         }
-        scrs.res = _finally;
         return scrs;
     }else{
-        return ScriptResult(__FAILED__);
+        ScriptResult scrs;
+        scrs.Content.type = _var;
+        scrs.Content.vtype = _str;
+        scrs.Content.node["prototype_"].type = _var;
+        scrs.Content.node["prototype_"].vtype = _str;
+        scrs.Content.node["prototype_"].content = "__stdlib_array__";
+        return scrs;
     }
 }
 

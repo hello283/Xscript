@@ -3,7 +3,8 @@
 
 extern "C" ScriptResult GetUrlArgs(Type* this_,vector<Type> list){
     if(list.size() == 1 && list[0].type == _str){
-        if(list[0].content.find('?')){
+        cout << "findResult:" << list[0].content.find('?') << endl;
+        if(list[0].content.find('?') != 18446744073709551615){
             vector<string> s = CodeSplit(CodeSplit(list[0].content,'?')[1],'&');
             ScriptResult scrs;
             scrs.Content.type = _var;
@@ -40,8 +41,15 @@ extern "C" ScriptResult GetItem(Type* this_,vector<Type> list){
                 continue;
             }
         }
-
+        ScriptResult scrs;
+        scrs.Content.type = _var;
+        scrs.Content.vtype = _str;
+        scrs.Content.content = "";
     }else{
-        return ScriptResult(__FAILED__);
+        ScriptResult scrs;
+        scrs.Content.type = _var;
+        scrs.Content.vtype = _str;
+        scrs.Content.content = "";
+        return scrs;
     }
 }

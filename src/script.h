@@ -379,9 +379,9 @@ Type eval(ExprTree expr){
       targs.push_back(left);
       return CallFunction(&left.node["__eq__"],targs);
     }
-    if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
+    if(left.vtype != right.vtype) return iffalse;
     if(left.vtype == _int && right.vtype == _int){
       if(stoi_(left.content) == stoi_(right.content))  return iftrue;
       return iffalse;
@@ -400,9 +400,9 @@ Type eval(ExprTree expr){
       targs.push_back(left);
       return CallFunction(&left.node["__neq__"],targs);
     }
-    if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
+    if(left.vtype != right.vtype) return iffalse;
     if(left.vtype == _int && right.vtype == _int){
       if(stoi_(left.content) != stoi_(right.content))  return iftrue;
       return iffalse;
@@ -421,9 +421,9 @@ Type eval(ExprTree expr){
       targs.push_back(left);
       return CallFunction(&left.node["__min__"],targs);
     }
-    if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
+    if(left.vtype != right.vtype) return iffalse;
     if(left.vtype == _int && right.vtype == _int){
       if(stoi_(left.content) < stoi_(right.content))  return iftrue;
       return iffalse;
@@ -441,9 +441,9 @@ Type eval(ExprTree expr){
       targs.push_back(left);
       return CallFunction(&left.node["__max__"],targs);
     }
-    if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
+    if(left.vtype != right.vtype) return iffalse;
     if(left.vtype == _int && right.vtype == _int){
       if(stoi_(left.content) > stoi_(right.content))  return iftrue;
       return iffalse;
@@ -461,9 +461,9 @@ Type eval(ExprTree expr){
       targs.push_back(left);
       return CallFunction(&left.node["__mineq__"],targs);
     }
-    if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
+    if(left.vtype != right.vtype) return iffalse;
     if(left.vtype == _int && right.vtype == _int){
       if(stoi_(left.content) <= stoi_(right.content))  return iftrue;
       return iffalse;
@@ -481,9 +481,9 @@ Type eval(ExprTree expr){
       targs.push_back(left);
       return CallFunction(&left.node["__maxeq__"],targs);
     }
-    if(left.vtype != right.vtype) throw Error::SyntaxError("TypeError: '==' operation must be applied to the same type as both prototypes!");
     Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
     Type iffalse(now_scope);iffalse.type = _var;iffalse.vtype = _bol;iffalse.content.resize(1);iffalse.content[0] = (char)0;
+    if(left.vtype != right.vtype) return iffalse;
     if(left.vtype == _int && right.vtype == _int){
       if(stoi_(left.content) >= stoi_(right.content))  return iftrue;
       return iffalse;

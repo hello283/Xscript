@@ -5,10 +5,15 @@ var current_path = WebPlugin.GetItem(arg_dict,"path");
 if(current_path == "/"){
     current_path = "";
 }else{
-    //std.print(")))))))))))))))))))))))))))))",current_path);
+    // WDNMD
 };
 var s=std.ListFiles(__CONST_APP_PREFIX+current_path);
+var thisItem;
 for(var i=0,Array.outsize(s,i),i++){
-    std.print("<a href=",std.charToStr(34),current_path,"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br>\n");
-    webecho("<a href=",std.charToStr(34),current_path,"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br>\n");
+    thisItem = Array.get(s,i);
+    if(thisItem.type == "directory"){
+        webecho("<a href=",std.charToStr(34),"/app.xs0?path=",current_path,"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br>\n");
+    }else if(thisItem.type == "file"){
+        webecho("<a href=",std.charToStr(34),current_path,"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br>\n");
+    };
 };
