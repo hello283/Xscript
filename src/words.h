@@ -114,7 +114,6 @@ namespace EasyFiles{
 		string ret;
 		FILE* fd = fopen(FileName.data(),"r+");
     if(fd == NULL){
-      cout << "Failed!:" << FileName << endl;
       throw EasyFiles::FileError::CanNotOpenFile();
     }else{
       for (char byte = 0; (byte = fgetc(fd)) != EOF ; ret += byte);

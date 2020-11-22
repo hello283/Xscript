@@ -5,7 +5,7 @@ var current_path = WebPlugin.GetItem(arg_dict,"path");
 if(current_path == "/"){
     current_path = "";
 }else{
-    // WDNMD
+    
 };
 var s=std.ListFiles(__CONST_APP_PREFIX+current_path);
 var thisItem;
