@@ -1,8 +1,14 @@
 import(__CONST_APP_PREFIX+"/inclist.xs0");
 
 var arg_dict = WebPlugin.GetUrlArgs(__BROWSER_URL);
-var s=std.ListFiles(__CONST_APP_PREFIX+WebPlugin.GetItem(arg_dict,"path"));
+var current_path = WebPlugin.GetItem(arg_dict,"path");
+if(current_path == "/"){
+    current_path = "";
+}else{
+    //std.print(")))))))))))))))))))))))))))))",current_path);
+};
+var s=std.ListFiles(__CONST_APP_PREFIX+current_path);
 for(var i=0,Array.outsize(s,i),i++){
-    std.print("<a href=",std.charToStr(34),"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br>\n");
-    webecho("<a href=",std.charToStr(34),"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br>\n");
+    std.print("<a href=",std.charToStr(34),current_path,"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br>\n");
+    webecho("<a href=",std.charToStr(34),current_path,"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br>\n");
 };

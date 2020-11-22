@@ -96,7 +96,7 @@ void GetFileNames(string path,vector<string>& filenames)
     {
 
         if (EmptyStr() + findData.name != "." && EmptyStr() + findData.name != ".." ){
-            cout << findData.name << endl;
+            //cout << findData.name << endl;
             filenames.push_back( findData.name );
         }
     } while (_findnext(handle, &findData) == 0);    // 查找目录中的下一个文件
