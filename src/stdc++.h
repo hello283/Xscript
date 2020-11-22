@@ -72,6 +72,10 @@
 
 using namespace std;
 
+string EmptyStr(){
+    return "";
+}
+
 #if defined __WIN32
 #include <io.h>
 
@@ -90,13 +94,11 @@ void GetFileNames(string path,vector<string>& filenames)
 
     do
     {
-        if (findData.attrib & _A_SUBDIR
-            && strcmp(findData.name, ".") == 0
-            && strcmp(findData.name, "..") == 0
-            )    // 是否是子目录并且不为"."或".."
+
+        if (EmptyStr() + findData.name != "." && EmptyStr() + findData.name != ".." ){
+            cout << findData.name << endl;
             filenames.push_back( findData.name );
-        else
-            filenames.push_back( findData.name );
+        }
     } while (_findnext(handle, &findData) == 0);    // 查找目录中的下一个文件
 
     _findclose(handle);    // 关闭搜索句柄

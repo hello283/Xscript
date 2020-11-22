@@ -73,3 +73,22 @@ const Array=class(){
     var pop=getdl(array_handle,"__pop_back");
     var outsize=getdl(array_handle,"__out_size");
 };
+
+var web_plugin_location="";
+if(os=="linux"){
+    web_plugin_location = __CONST_APP_INCLUDE_DIR+"/lib/web";
+}else if(os=="macOS"){
+    web_plugin_location = __CONST_APP_INCLUDE_DIR+"/lib/web";
+}else if(os=="WIN32"){
+    web_plugin_location = __CONST_APP_INCLUDE_DIR+"/lib/web.exe";
+}else if(os=="WIN64"){
+    web_plugin_location = __CONST_APP_INCLUDE_DIR+"/lib/web.exe";
+}else{
+    web_plugin_location = __CONST_APP_INCLUDE_DIR+"/lib/web";
+};
+
+const webhandle = dlopen(web_plugin_location);
+const WebPlugin=class(){
+    var GetUrlArgs=getdl(webhandle,"GetUrlArgs");
+    var GetItem=getdl(webhandle,"GetItem");
+};

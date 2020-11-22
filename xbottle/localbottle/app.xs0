@@ -1,5 +1,8 @@
 import(__CONST_APP_PREFIX+"/inclist.xs0");
 
-var s=__BROWSER_URL;
-webecho(s);
-//webecho("<h1>hello,World</h1>","errrrrr");
+var arg_dict = WebPlugin.GetUrlArgs(__BROWSER_URL);
+var s=std.ListFiles(__CONST_APP_PREFIX+WebPlugin.GetItem(arg_dict,"path"));
+for(var i=0,Array.outsize(s,i),i++){
+    std.print("<a href=",std.charToStr(34),"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br>\n");
+    webecho("<a href=",std.charToStr(34),"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br>\n");
+};

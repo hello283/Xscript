@@ -83,7 +83,7 @@ extern "C" ScriptResult charToStr(Type* this_,vector<Type> list){
         s.res = _finally;
         s.Content.type = _var;
         s.Content.vtype = _str;
-        s.Content.content = list[0].content;
+        s.Content.content = list[0].content[0];
         return s;
     }
 }
@@ -312,3 +312,13 @@ extern "C" ScriptResult __listfiles(Type* this_, vector<Type> list){
         return ScriptResult(__FAILED__);
     }
 }
+
+// Substr
+/*
+extern "C" ScriptResult __substr(Type* this_,vector<Type> list){
+    if(list.size() == 1 && list[0].vtype == _str){
+
+    }else{
+        return ScriptResult(__FAILED__);
+    }
+}*/

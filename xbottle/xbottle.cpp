@@ -146,6 +146,8 @@ int main(int argc,const char ** argv){
                 string firstLine = requestStr.substr(0, requestStr.find("\r\n"));
                 firstLine = firstLine.substr(firstLine.find(" ") + 1);//substr，复制函数，参数为起始位置（默认0），复制的字符数目
                 string url = firstLine.substr(0, firstLine.find(" "));//find返回找到的第一个匹配字符串的位置，而不管其后是否还有相匹配的字符串。
+                url=replace_all(url,"%20"," ");
+                cout << "\033[32m" << url << "\033[0m" << endl;
                 servfilereq  servfile("./"+bottle_args["root"] + "/",url);
                 if(!servfile.finish){
                     string response = "HTTP/1.1 404 OK\r\n\r\n404Error";
