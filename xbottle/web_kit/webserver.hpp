@@ -72,14 +72,17 @@ class servfilereq{
     public:
         string req_mime = "text/plain";
         string fcontent;
+        string filen = "";
         bool finish = false;
         servfilereq(string prefix,string filename){
             string line = filename;
 
             filename = filename.substr(0,filename.find('?'));
             filename = (filename == "") ? "/index.xs0" : filename ;
+            filen = prefix+filename;
             try{
                 fcontent = EasyFiles::ReadFile(prefix + filename);
+                cout << filen << endl;
                 req_mime = mime_tab.key_[filename.substr(filename.find('.')+1)];
                 req_mime = (req_mime == "") ? "application/octet-stream" : req_mime;
                 finish = true;

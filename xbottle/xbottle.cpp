@@ -171,8 +171,17 @@ int main(int argc,const char ** argv){
                         e.what();
                     }
                 }else{
-                    string response = Text::ToString("") + "HTTP/1.1 200 OK\r\n" + "Content-Type:" + servfile.req_mime + "; charset=utf-8\r\n" +"\r\n" + servfile.fcontent;
+                    string response = Text::ToString("") + "HTTP/1.1 200 OK\r\n" + "Content-Type:" + servfile.req_mime + "; charset=utf-8\r\n\r\n";
                     webecho(response);
+                    FILE* fd = fopen(servfile.filen.c_str(),"rb+");
+                    cout << servfile.req_mime << endl;
+                    char buffer[1024] = {0};
+                    fseek(fd, 0, SEEK_SET);
+                    while(!feof(fd)){
+                    	fread(&buffer,1024,1,fd);
+                    	send(clientSock, buffer, 1024, 0);
+                    }
+                    fclose(fd);
                 }
                 servfile.finish = false;
                 close(clientSock);

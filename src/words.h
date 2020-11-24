@@ -117,6 +117,7 @@ namespace EasyFiles{
       throw EasyFiles::FileError::CanNotOpenFile();
     }else{
       for (char byte = 0; (byte = fgetc(fd)) != EOF ; ret += byte);
+      	fclose(fd);
       return ret;
     }
 	}
