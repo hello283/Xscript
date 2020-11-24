@@ -173,13 +173,22 @@ int main(int argc,const char ** argv){
                 }else{
                     string response = Text::ToString("") + "HTTP/1.1 200 OK\r\n" + "Content-Type:" + servfile.req_mime + "; charset=utf-8\r\n\r\n";
                     webecho(response);
+
+                    // get file length
+                    FILE  *file = fopen(servfile.filen.c_str(),"rb");
+                    fseek(file,0,SEEK_END);
+                    size_t filelength = ftell(file);
+                    fclose(file);
+
+                    // send file
                     FILE* fd = fopen(servfile.filen.c_str(),"rb+");
                     cout << servfile.req_mime << endl;
-                    char buffer[1024] = {0};
+                    char buffer[1028576] = {0};
                     fseek(fd, 0, SEEK_SET);
                     while(!feof(fd)){
-                    	fread(&buffer,1024,1,fd);
-                    	send(clientSock, buffer, 1024, 0);
+                    	fread(&buffer,1028576,1,fd);
+                    	send(clientSock, buffer, (filelength <= 1028576) ? filelength : 1028576, 0);
+                    	filelength -= 1028576;
                     }
                     fclose(fd);
                 }
