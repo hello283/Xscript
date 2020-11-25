@@ -783,19 +783,17 @@ ScriptResult Script(vector<word> wrd){
       Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
       if(eval_res.content == iftrue.content){
         ScriptResult ifr = Script(wrd[sz].wd);
-        //if(ifr.res != _finally)  return ifr;
+        if(ifr.res != _finally)  return ifr;
+        return ScriptResult(__SUCCESS__);
       }else if(wrd.size() > sz+1 && wrd[sz+1].wd == "else"){
       	ScriptResult ifr;
       	std::vector<word> v = WordCollection(wrd,sz+2);
       	if(v.size() == 1) ifr = Script(v[0].wd);
-        else ifr = Script(WordCollection(wrd,sz+2));
-        //cout <<"233" <<v.size()<<endl;
-        //for(int i=0;i<v.size();i++)  cout << v[i].wd;
+        else ifr = Script(v);
         if(ifr.res != _finally){
         	return ifr;
         }
-      }else{
-
+        return ScriptResult(__SUCCESS__);
       }
       scr = ScriptResult(__SUCCESS__);
       return scr;
