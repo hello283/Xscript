@@ -2,10 +2,11 @@ import(__CONST_APP_PREFIX+"/inclist.xs0");
 
 var arg_dict = WebPlugin.GetUrlArgs(__BROWSER_URL);
 var current_path = WebPlugin.GetItem(arg_dict,"path");
+
 if(current_path == "/"){
     current_path = "";
 }else{
-    
+    std.print("2222222");
 };
 var s=std.ListFiles(__CONST_APP_PREFIX+current_path);
 var thisItem;

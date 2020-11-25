@@ -645,7 +645,7 @@ Type CallFunction(Type *func,vector<word> call_line){
 // 解释代码
 ScriptResult Script(string expr);
 ScriptResult Script(vector<word> wrd){
-  ScriptResult scr;
+  ScriptResult scr(__SUCCESS__);
   // 判断主语
   //cout << "Hey!" << wrd[0].wd << " " << wrd[0].word_type << endl;
   // 为了防止误判断，在wrd的大小大于1的情况下，不对变量进行解析
@@ -783,10 +783,19 @@ ScriptResult Script(vector<word> wrd){
       Type iftrue(now_scope);iftrue.type = _var;iftrue.vtype = _bol;iftrue.content.resize(1);iftrue.content[0] = (char)1;
       if(eval_res.content == iftrue.content){
         ScriptResult ifr = Script(wrd[sz].wd);
-        if(ifr.res != _finally)  return ifr;
-      }else if(wrd.size() > sz && wrd[sz+1].wd == "else"){
-        ScriptResult ifr = Script(WordCollection(wrd,sz+2));
-        if(ifr.res != _finally)  return ifr;
+        //if(ifr.res != _finally)  return ifr;
+      }else if(wrd.size() > sz+1 && wrd[sz+1].wd == "else"){
+      	ScriptResult ifr;
+      	std::vector<word> v = WordCollection(wrd,sz+2);
+      	if(v.size() == 1) ifr = Script(v[0].wd);
+        else ifr = Script(WordCollection(wrd,sz+2));
+        //cout <<"233" <<v.size()<<endl;
+        //for(int i=0;i<v.size();i++)  cout << v[i].wd;
+        if(ifr.res != _finally){
+        	return ifr;
+        }
+      }else{
+
       }
       scr = ScriptResult(__SUCCESS__);
       return scr;
@@ -1105,7 +1114,10 @@ ScriptResult Script(vector<word> wrd){
 }
 
 ScriptResult Script(string expr){
-  ScriptResult scr;
+  ScriptResult scr=ScriptResult(__SUCCESS__);
+  scr.res = _finally;
+    scr.Content.vtype = _bol;
+    scr.Content.content[0] = (char)1;
   vector< vector<word> > word_list;
   expr = Format(expr);
   if(expr == ""){
@@ -1150,6 +1162,7 @@ ScriptResult Script(string expr){
   //ScriptResult scr;
   for (size_t i = 0; i < CodeArr.size(); i++) {
     if(CodeArr[i] == "" || CodeArr[i] == " ")  continue;
+    //cout << CodeArr[i] << endl;
     vector<word> tmplst = WordParser(CodeArr[i]);
     scr = Script(tmplst);
     if(CodeArr.size() == 1)  return scr;
