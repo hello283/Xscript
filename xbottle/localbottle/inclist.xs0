@@ -1,1 +1,2 @@
 import(__CONST_APP_INCLUDE_DIR+"/stdlib.xs0");
+import(__CONST_APP_INCLUDE_DIR+"/filestream.xs0");

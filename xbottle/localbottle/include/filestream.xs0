@@ -1,0 +1,19 @@
+var filedym_location="";
+if(os=="linux"){
+    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/filestream";
+}else if(os=="macOS"){
+    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/filestream";
+}else if(os=="WIN32"){
+    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/filestream.exe";
+}else if(os=="WIN64"){
+    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/filestream.exe";
+}else{
+    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/filestream";
+};
+const __filestream_handle = dlopen(filedym_location);
+const Filestream=class(){
+    var Open=getdl(__filestream_handle,"__std_open"); // Call format : Filestream.Open(filename,mode);
+    var Read=getdl(__filestream_handle,"__std_read"); // Call format : Filestream.Read(fd,size);
+    var Write=getdl(__filestream_handle,"__std_write"); // Call format : Filestream.Write(fd,content);
+    var GetLength=getdl(__filestream_handle,"__std_getlength"); // Call format : Filestream.GetLength(fd);
+};

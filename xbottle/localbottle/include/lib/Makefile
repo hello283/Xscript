@@ -5,6 +5,7 @@ array: array.cpp ../../../../src/*.h
 
 stdlib: stdlib.cpp ../../../../src/*.h
 	$(CC) stdlib.cpp -o stdlib
+	$(CC) filestream.cpp -o filestream
 
 web: webs/web.cpp ../../../../src/*.h
 	$(CC) webs/web.cpp -o web
@@ -14,6 +15,7 @@ array_win: array.cpp ../../../../src/*.h
 
 stdlib_win: stdlib.cpp ../../../../src/*.h
 	$(CC) stdlib.cpp -o stdlib -lws2_32
+	$(CC) filestream.cpp -o filestream -lws2_32
 
 web_win: webs/web.cpp ../../../../src/*.h
 	$(CC) webs/web.cpp -o web -lws2_32

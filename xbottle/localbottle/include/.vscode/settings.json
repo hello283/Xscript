@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.xs0": "java",
+        "istream": "cpp"
+    }
+}
