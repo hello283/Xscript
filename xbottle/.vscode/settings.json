@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "iostream": "cpp"
+        "*.xs0": "java",
+        "iostream": "cpp",
+        "*.tcc": "cpp"
     }
 }

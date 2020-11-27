@@ -11,9 +11,14 @@ if(os=="linux"){
     filedym_location  = __CONST_APP_INCLUDE_DIR+"/lib/filestream";
 };
 const __filestream_handle = dlopen(filedym_location);
+const SEEK_SET = 0;
+const SEEK_CUR = 1;
+const SEEK_END = 2;
 const Filestream=class(){
-    var Open=getdl(__filestream_handle,"__std_open"); // Call format : Filestream.Open(filename,mode);
-    var Read=getdl(__filestream_handle,"__std_read"); // Call format : Filestream.Read(fd,size);
-    var Write=getdl(__filestream_handle,"__std_write"); // Call format : Filestream.Write(fd,content);
-    var GetLength=getdl(__filestream_handle,"__std_getlength"); // Call format : Filestream.GetLength(fd);
+    var Open=getdl(__filestream_handle,"__std_open"); // Call format : int Filestream.Open(filename,mode);
+    var Read=getdl(__filestream_handle,"__std_read"); // Call format : int Filestream.Read(fd,size);
+    var Write=getdl(__filestream_handle,"__std_write"); // Call format : int Filestream.Write(fd,content);
+    var GetLength=getdl(__filestream_handle,"__std_getlength"); // Call format : int Filestream.GetLength(fd);
+    var Close=getdl(__filestream_handle,"__std_close"); // bool Filestream.Close(fd);
+    var Seek=getdl(__filestream_handle,"__std_seek"); // int Filestream.Seek(fd,int,offset);
 };

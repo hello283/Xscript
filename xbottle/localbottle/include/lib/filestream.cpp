@@ -81,3 +81,29 @@ extern "C" ScriptResult __std_getlength(Type* this_,vector<Type> list){
         return scrs;
     }
 }
+
+extern "C" ScriptResult __std_seek(Type* this_,vector<Type> list){
+    if(list.size() == 3 && list[0].vtype == _int && list[1].vtype == _int && list[2].vtype == _int && stoi_(list[2].content) <= 2){
+        FILE* thisFile = file_handles[stoi_(list[0].content)];
+        ScriptResult scrs(__FAILED__);
+        scrs.Content.vtype = _int;
+        scrs.Content.content = itos(fseek(thisFile,stoi_(list[1].content),stoi_(list[2].content)));
+        return scrs;
+    }else{
+        ScriptResult scrs(__FAILED__);
+        scrs.Content.vtype = _int;
+        scrs.Content.content = itos(-1);
+        return scrs;
+    }
+}
+
+extern "C" ScriptResult __std_close(Type* this_,vector<Type> list){
+    if(list.size() == 1 && list[0].vtype == _int){
+        fclose(file_handles[stoi_(list[0].content)]);
+        vector<FILE*>::iterator iter = file_handles.begin() + stoi_(list[0].content);
+        file_handles.erase(iter);
+        return ScriptResult(__SUCCESS__);
+    }else{
+        return ScriptResult(__FAILED__);
+    }
+}

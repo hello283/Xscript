@@ -82,8 +82,9 @@ class servfilereq{
             filen = prefix+filename;
             try{
                 fcontent = EasyFiles::ReadFile(prefix + filename);
-                cout << filen << endl;
-                req_mime = mime_tab.key_[filename.substr(filename.find('.')+1)];
+                //cout << filen << endl;
+                cout << filename.substr(filename.rfind('.')+1) << endl;
+                req_mime = mime_tab.key_[filename.substr(filename.rfind('.')+1)];
                 req_mime = (req_mime == "") ? "application/octet-stream" : req_mime;
                 finish = true;
             }catch(EasyFiles::FileError::CanNotOpenFile e){
