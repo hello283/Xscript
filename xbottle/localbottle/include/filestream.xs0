@@ -1,14 +1,14 @@
 var filedym_location="";
 if(os=="linux"){
-    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/filestream";
+    filedym_location = __CONST_APP_INCLUDE_DIR+"/lib/filestream";
 }else if(os=="macOS"){
-    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/filestream";
+    filedym_location = __CONST_APP_INCLUDE_DIR+"/lib/filestream";
 }else if(os=="WIN32"){
-    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/filestream.exe";
+    filedym_location = __CONST_APP_INCLUDE_DIR+"/lib/filestream.exe";
 }else if(os=="WIN64"){
-    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/filestream.exe";
+    filedym_location = __CONST_APP_INCLUDE_DIR+"/lib/filestream.exe";
 }else{
-    stdlocation = __CONST_APP_INCLUDE_DIR+"/lib/filestream";
+    filedym_location  = __CONST_APP_INCLUDE_DIR+"/lib/filestream";
 };
 const __filestream_handle = dlopen(filedym_location);
 const Filestream=class(){

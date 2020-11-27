@@ -14,8 +14,10 @@ extern "C" ScriptResult __std_open(Type* this_,vector<Type> list){
             return scrs;
         }else{
             ScriptResult scrs(__FAILED__);
+            scrs.Content.type = _var;
             scrs.Content.vtype = _int;
             scrs.Content.content = itos(file_handles.size()-1);
+            //for(int i = 0;i < 4;i++) cout << (int)scrs.Content.content[i] << endl;
             return scrs;
         }
     }else{
@@ -46,10 +48,10 @@ extern "C" ScriptResult __std_read(Type* this_,vector<Type> list){
 }
 
 extern "C" ScriptResult __std_write(Type* this_,vector<Type> list){
-    if(list.size() == 2 && list[0].vtype == _int && list[1].vtype == _int && list[2].vtype == _str && stoi_(list[0].content) < file_handles.size()){
+    if(list.size() == 2 && list[0].vtype == _int && list[0].vtype == _int && list[1].vtype == _str && stoi_(list[0].content) < file_handles.size()){
         ScriptResult scrs(__FAILED__);
         scrs.Content.vtype = _int;
-        fwrite(list[1].content.c_str(),list[1].content.size(),1,file_handles[stoi_(list[0].content)]);
+        scrs.Content.content = itos(fwrite(list[1].content.c_str(),list[1].content.length(),1,file_handles[stoi_(list[0].content)]));
 
         return scrs;
     }else{
@@ -71,6 +73,7 @@ extern "C" ScriptResult __std_getlength(Type* this_,vector<Type> list){
         scrs.Content.content = itos(ftell(thisFile));
 
         fseek(thisFile,file_pos,SEEK_SET);
+        return scrs;
     }else{
         ScriptResult scrs(__FAILED__);
         scrs.Content.vtype = _int;

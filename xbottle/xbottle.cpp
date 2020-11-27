@@ -198,3 +198,25 @@ int main(int argc,const char ** argv){
             close(sock);
         }
 }
+
+/*
+var arg_dict = WebPlugin.GetUrlArgs(__BROWSER_URL);
+var current_path = WebPlugin.GetItem(arg_dict,"path");
+
+std.print("?",current_path,"\n");
+if(current_path == "/"){
+    current_path = "";
+}else{
+    std.print("\033[31m2222222\033[0m");
+};
+var s=std.ListFiles(__CONST_APP_PREFIX+current_path);
+var thisItem;
+for(var i=0,Array.outsize(s,i),i++){
+    thisItem = Array.get(s,i);
+    if(thisItem.type == "directory"){
+        webecho("<center><a href=",std.charToStr(34),"/app.xs0?path=",current_path,"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br></center>\n");
+    }else if(thisItem.type == "file"){
+        webecho("<center><a href=",std.charToStr(34),current_path,"/",Array.get(s,i),std.charToStr(34),">",Array.get(s,i),"</a><br></center>\n");
+    };
+};
+*/
