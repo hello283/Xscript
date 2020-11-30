@@ -1,0 +1,7 @@
+import(__CONST_APP_PREFIX+"/inclist.xs0");
+var fd=Filestream.Open(__CONST_APP_PREFIX+"/fromapp.txt","rb+");
+if(fd<0){
+    std.print("Filestream Error\n");
+};
+webecho(Filestream.Read(fd,Filestream.GetLength(fd)-20));
+Filestream.Close(fd);

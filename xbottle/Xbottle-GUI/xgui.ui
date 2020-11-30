@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>339</height>
+   </rect>
+  </property>
+  <property name="acceptDrops">
+   <bool>false</bool>
+  </property>
+  <property name="windowTitle">
+   <string>Xscript Bottle Manager</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="OpenBottle_Button">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Accuratist</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Open Bottle</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="text_1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>341</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Accuratist</family>
+     </font>
+    </property>
+    <property name="midLineWidth">
+     <number>1</number>
+    </property>
+    <property name="text">
+     <string># Xbottle Manager</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::MarkdownText</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="tips_label">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>30</y>
+      <width>251</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Accuratist</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>You must open a bottle beforce change it</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="MainManager" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>621</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <widget class="QLineEdit" name="MainClassEdit">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>10</y>
+       <width>211</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Accuratist</family>
+      </font>
+     </property>
+     <property name="text">
+      <string>AppMainClass:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Accuratist</family>
+      </font>
+     </property>
+     <property name="text">
+      <string>Main Script:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="MainScript">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>30</y>
+       <width>211</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Accuratist</family>
+      </font>
+     </property>
+     <property name="text">
+      <string>Include Path</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="IncludePath">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>50</y>
+       <width>211</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>50</y>
+       <width>261</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Accuratist</family>
+      </font>
+     </property>
+     <property name="text">
+      <string>*In 1.x version,xbottle may don't use that*</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::MarkdownText</enum>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="OpenBottle_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>101</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Accuratist</family>
+      </font>
+     </property>
+     <property name="text">
+      <string>Save to config file</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>531</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Accuratist</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>**About Xbottle** *Please config your g++ or mingw first*</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::MarkdownText</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>190</y>
+      <width>201</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Accuratist</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Xscript Core Version:*will download at src/*</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::MarkdownText</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Compile_Button">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>310</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Accuratist</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Compile Xbottle</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="CoreVerComboBox">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>190</y>
+      <width>151</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Accuratist</family>
+     </font>
+    </property>
+    <property name="currentIndex">
+     <number>3</number>
+    </property>
+    <item>
+     <property name="text">
+      <string>1.0 Basic Version</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1.1 Stdlib Update</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2.0 Features Update</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2.1 Lib Update</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>210</y>
+      <width>201</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Accuratist</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>CONST.h: *won't use it on 1.x vers*</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::MarkdownText</enum>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="CONST_H_">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>210</y>
+      <width>211</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ENABLE_DEBUG_AND_XSERV</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>230</y>
+      <width>201</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Accuratist</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Compiler*(Default is g++)*:</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::MarkdownText</enum>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="Compiler_Edit">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>230</y>
+      <width>211</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>g++</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

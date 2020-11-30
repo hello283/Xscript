@@ -18,6 +18,7 @@ void show_help(){
     for(int i = 0;i < 8;i++){
         cout << help_doc[i];
     }
+    getchar();
     return;
 }
 

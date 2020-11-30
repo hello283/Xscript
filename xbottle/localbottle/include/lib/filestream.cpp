@@ -34,6 +34,7 @@ extern "C" ScriptResult __std_read(Type* this_,vector<Type> list){
         ScriptResult scrs(__FAILED__);
         scrs.Content.vtype = _str;
         char* buffer = (char*)malloc(stoi_(list[1].content)+1); // Read size,using malloc because array didn't work
+        memset(buffer,0,stoi_(list[1].content)+1); 
         fread(buffer,stoi_(list[1].content),1,file_handles[stoi_(list[0].content)]); // Read to buffer
         scrs.Content.content.resize(stoi_(list[1].content)); // first resize then read , because only read won't complete
         scrs.Content.content = buffer;
